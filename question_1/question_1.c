@@ -5,6 +5,7 @@ struct range
     int first;
     int last;
 };
+void print_range();
 
 struct range new_range(int thread_index, int p, int n)
 {
@@ -53,6 +54,9 @@ struct range new_range_2(int thread_index, int p, int n)
 
 int test_rest_division_zero();
 int test_rest_division_not_zero();
+int test_old_range();
+int test_range(int p, int n, struct range ranges[]);
+int DEBUG = 0;
 
 int main(int argc, char const *argv[])
 {
@@ -60,7 +64,12 @@ int main(int argc, char const *argv[])
     if (test_rest_division_zero() && test_rest_division_not_zero())
     {
         printf("Test question 1 success\n");
-        return 0;
+    }
+
+    if (DEBUG)
+    {
+        printf("OLD new range\n");
+        test_old_range();
     }
 
     return 1;
@@ -78,18 +87,7 @@ int test_rest_division_zero()
         {60, 80},
         {80, n}};
 
-    for (int thread_index = 0; thread_index < p; thread_index++)
-    {
-        r = new_range_2(thread_index, p, n);
-        if (r.first != ranges[thread_index].first || r.last != ranges[thread_index].last)
-        {
-            printf("ERROR on test_rest_division_zero on index %i\n ", thread_index);
-            printf("First  %i Last  %i\n", r.first, r.last);
-            return 0;
-        }
-    }
-
-    return 1;
+    return test_range(p, n, ranges);
 }
 
 int test_rest_division_not_zero()
@@ -104,16 +102,48 @@ int test_rest_division_not_zero()
         {75, 99},
         {99, n}};
 
+    return test_range(p, n, ranges);
+}
+
+int test_old_range()
+{
+    int p = 5;
+    int n = 123;
+    struct range r;
+    struct range ranges[5] = {
+        {0, 25},
+        {25, 50},
+        {50, 75},
+        {75, 99},
+        {99, n}};
+
     for (int thread_index = 0; thread_index < p; thread_index++)
     {
-        r = new_range_2(thread_index, p, n);
+        struct range r = new_range(thread_index, p, n);
+        if (DEBUG)
+            print_range(r);
+    }
+}
+
+int test_range(int p, int n, struct range ranges[5])
+{
+    for (int thread_index = 0; thread_index < p; thread_index++)
+    {
+        struct range r = new_range_2(thread_index, p, n);
+        if (DEBUG)
+            print_range(r);
+
         if (r.first != ranges[thread_index].first || r.last != ranges[thread_index].last)
         {
-            printf("ERROR on test_rest_division_not_zero on index %i\n ", thread_index);
-            printf("First  %i Last  %i diff %i\n", r.first, r.last, r.last - r.first);
+            printf("Error on thread index: %i", thread_index);
             return 0;
         }
     }
 
     return 1;
+}
+
+void print_range(struct range r)
+{
+    printf("First  %i Last  %i m Last - First: %i\n", r.first, r.last, r.last - r.first);
 }
