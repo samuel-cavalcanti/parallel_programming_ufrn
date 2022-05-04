@@ -5,3 +5,23 @@
 ![Somatório de Gauss](gauss_summation_1.png)
 
 
+Exemplo,  Supondo que k = 10, temos o seguinte vetor de índice:  
+indices = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]  
+utilizando a lógica da somatório de gauss e organizando os indicies temos um array normalizado:  
+normalized_array =   [ [0, 9], [1, 8], [2, 7], [3, 6], [4, 5] ]  
+onde o custo  de cada índice do normalized_array é igual, por tanto
+podemos usar o algoritmo da questão 1 aplicado ao normalized_array
+resultando:
+
+| Thread | normalized_array |
+| ------ | ---------------- |
+| 1      | 0,1              |
+| 2      | 2,3              |
+| 3      | 4                |
+
+
+| Thread | Compute_next_value |
+| ------ | ------------------ |
+| 1      | 0, 9,1, 8          |
+| 2      | 2, 7,3, 6          |
+| 3      | 4, 5               |
