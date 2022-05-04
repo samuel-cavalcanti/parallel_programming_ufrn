@@ -41,7 +41,6 @@ def equalize_computation(p: int, n: int) -> list[list[int]]:
 
     normalized_array = input_size_to_normalize_array(n)
 
-    print(f'normalized array: {normalized_array}')
     size_normalized_array = len(normalized_array)
 
     for thread_index in range(p):
@@ -72,7 +71,7 @@ def test_with_my_exemple():
         for predict_index, expected_index in zip(predict, expected):
             assert predict_index == expected_index, f'ERROR\npredict: {predict}\nexpected:{expected}'
 
-        print(f'{predict}')
+    print('Test question 2 success')
 
 
 if __name__ == '__main__':
