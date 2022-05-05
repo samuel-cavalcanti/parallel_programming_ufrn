@@ -2,7 +2,7 @@
 
 
 ## Somatório de Gauss
-![Somatório de Gauss](gauss_summation_1.png)
+![Somatório de Gauss](gauss_summation.png)
 
 
 Exemplo,  Supondo que k = 10, temos o seguinte vetor de índice:  
