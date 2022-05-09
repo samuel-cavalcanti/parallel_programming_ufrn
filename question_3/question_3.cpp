@@ -4,6 +4,7 @@
 #include <vector>
 #include <assert.h>
 #include <numeric>
+bool DEBUG = false;
 
 int compute_data(std::vector<int> *data)
 {
@@ -44,8 +45,6 @@ Node *create_new_tree(std::vector<Node *> nodes)
 
     return nodes[0];
 }
-
-bool DEBUG = true;
 
 int main(int argc, char const *argv[])
 {
