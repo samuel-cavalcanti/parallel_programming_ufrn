@@ -40,7 +40,7 @@ public:
 };
 
 ```
-## Função recursiva que cria a Árvore
+## Função que cria a Árvore
 
 Para criar a Árvore foi feita uma função recursiva que
 a partir do nível mais baixo da árvore cria a raiz, ou seja,
@@ -50,31 +50,51 @@ que se atinja a raiz, onde a cada nível o número de nós é dividido
 por 2. **Caso o número de nós inicial não for divisível pro 2, o algoritmo não funciona**
 
 ```c++
-std::vector<Node *> create_tree(std::vector<Node *> nodes)
+
+Node *create_new_tree(std::vector<Node *> nodes)
 {
 
-    auto new_nodes = std::vector<Node *>();
+    auto size = nodes.size();
 
-    if (nodes.size() == 2) // Caso BASE
-    {
-        auto left = nodes[0];
-        auto right = nodes[1];
-        auto middle = new Node(left, right);
-        new_nodes.push_back(middle);
-        return new_nodes;
-    }
-    
-    auto new_size = nodes.size();
-    auto last_index = new_size - 1;
-
-    for (auto i = 0; i < last_index; i += 2)
+    for (auto i = 0; i < size; i += 2)
     {
         auto left = nodes[i];
         auto right = nodes[i + 1];
-        auto middle = new Node(left, right);
-        new_nodes.push_back(middle);
+        left->neighborhoods.push_back(right);
+
+        if (i != 0)
+            nodes[0]->neighborhoods.push_back(left);
     }
-    // passando o próximo nível até chegar em 2
-    return create_tree(new_nodes);
+
+    return nodes[0];
 }
+```
+
+Após criar a árvore basta percorrer-lá recursivamente, lembrando que na prática
+**_compute_data_**, seria um _join_, ou um _await_, de uma thread.
+
+```c++
+int compute_data(std::vector<int> *data)
+{
+    auto total = 0;
+    auto size = data->size();
+    for (auto i = 0; i < size; i++)
+    {
+        total += data->at(i);
+    }
+
+    return total;
+}
+int compute_node(Node &node)
+{
+
+    int result_data = node.data == nullptr ? 0 : compute_data(node.data);
+
+    for (auto neighborhood : node.neighborhoods)
+        result_data += compute_node(*neighborhood);
+
+    return result_data;
+}
+
+
 ```

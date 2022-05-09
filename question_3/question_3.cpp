@@ -5,8 +5,6 @@
 #include <assert.h>
 #include <numeric>
 
-bool DEBUG = false;
-
 int compute_data(std::vector<int> *data)
 {
     auto total = 0;
@@ -29,39 +27,30 @@ int compute_node(Node &node)
     return result_data;
 }
 
-std::vector<Node *> create_tree(std::vector<Node *> nodes)
+Node *create_new_tree(std::vector<Node *> nodes)
 {
 
-    auto new_nodes = std::vector<Node *>();
+    auto size = nodes.size();
 
-    if (nodes.size() <= 2)
-    {
-        auto left = nodes[0];
-        auto right = nodes[1];
-        auto middle = new Node(left, right);
-        new_nodes.push_back(middle);
-        return new_nodes;
-    }
-
-    auto new_size = nodes.size();
-    auto last_index = new_size - 1;
-
-    for (auto i = 0; i < last_index; i += 2)
+    for (auto i = 0; i < size; i += 2)
     {
         auto left = nodes[i];
         auto right = nodes[i + 1];
-        auto middle = new Node(left, right);
-        new_nodes.push_back(middle);
+        left->neighborhoods.push_back(right);
+
+        if (i != 0)
+            nodes[0]->neighborhoods.push_back(left);
     }
 
-    return create_tree(new_nodes);
+    return nodes[0];
 }
+
+bool DEBUG = true;
 
 int main(int argc, char const *argv[])
 {
 
     std::vector<int> data = {8, 19, 7, 15, 7, 13, 12, 14};
-
     std::vector<Node *> nodes;
     for (auto value : data)
     {
@@ -70,16 +59,14 @@ int main(int argc, char const *argv[])
         nodes.push_back(new Node(values));
     }
 
-    auto last_level = create_tree(nodes);
-    auto root = *last_level[0];
-    auto expected =  accumulate(data.begin(), data.end(), 0); // sum = 95
+    auto root = *create_new_tree(nodes);
+    auto expected = accumulate(data.begin(), data.end(), 0); // sum = 95
     auto predict = compute_node(root);
 
     if (DEBUG)
     {
 
         print_node(root);
-        std::cout << "Numeber of nodes: " << last_level.size() << std::endl;
         std::cout << "predict " << predict << " expected " << expected << std::endl;
     }
 
