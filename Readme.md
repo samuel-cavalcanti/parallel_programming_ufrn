@@ -14,6 +14,10 @@ Figure 1.1. Assume the number of cores is a power of two (1, 2, 4, 8, . . . ).
 4. As an alternative to the approach outlined in the preceding problem we can use C’s bitwise operators to implement the tree-structured global sum. In order to see how this works, it helps to write down the binary (base 2) representation of each of the core ranks, and note the pairings during each stage
    - [Resposta Questão 4](question_4/Readme.md) 
 
+5. What happens if your pseudo-code in Exercise 1.3 or Exercise 1.4 is run when the number of cores is not a power of two (e.g., 3, 5, 6, 7) ? Can you modify the
+pseudo-code so that it will work correctly regardless of the number of cores ?
+   - [Resposta Questão 5](question_5/Readme.md)
+
 ## testes
 Foram feitos alguns scripts para testar as soluções apresentadas
 para  executa-lás:
