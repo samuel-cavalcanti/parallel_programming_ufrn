@@ -15,7 +15,7 @@ std::vector<Node *> create_new_tree_bitwise(std::vector<Node *> nodes)
         auto left = nodes[0];
         auto right = nodes[1];
         receive_value(left, right);
-        return {left};
+        return {left}; // Construtor C++ Moderno.
     }
 
     auto new_nodes = std::vector<Node *>{};
