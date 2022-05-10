@@ -18,6 +18,15 @@ Figure 1.1. Assume the number of cores is a power of two (1, 2, 4, 8, . . . ).
 pseudo-code so that it will work correctly regardless of the number of cores ?
    - [Resposta Questão 5](question_5/Readme.md)
 
+6. Derive formulas for the number of receives and additions that core 0 carries out using:  
+   a. the original pseudo-code for a global sum  
+   b. the tree-structured global sum.  
+Make a table showing the numbers of receives and additions carried out by core
+0 when the two sums are used with 2, 4, 8, . . . , 1024 cores.
+
+   - [Resposta Questão 6](question_6/Readme.md)
+  
+
 ## testes
 Foram feitos alguns scripts para testar as soluções apresentadas
 para  executa-lás:
