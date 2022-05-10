@@ -27,6 +27,10 @@ Make a table showing the numbers of receives and additions carried out by core
    - [Resposta Questão 6](question_6/Readme.md)
   
 
+9. Write an essay describing a research problem in your major that would benefit from the use of parallel computing. Provide a rough outline of how parallelism would be used. Would you use task- or data-parallelism ?
+   - [Resposta Questão 9](question_9/Readme.md)
+  
+
 ## testes
 Foram feitos alguns scripts para testar as soluções apresentadas
 para  executa-lás:
