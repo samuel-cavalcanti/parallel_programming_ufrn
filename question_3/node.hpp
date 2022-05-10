@@ -50,22 +50,17 @@ int compute_node(Node &node)
     return result_data;
 }
 
-Node *create_new_tree(std::vector<Node *> nodes)
+
+/* a receive value from b */
+void receive_value(Node *a, Node *b)
 {
+    a->neighborhoods.push_back(b);
+}
 
-    auto size = nodes.size();
-
-    for (auto i = 0; i < size; i += 2)
-    {
-        auto left = nodes[i];
-        auto right = nodes[i + 1];
-        left->neighborhoods.push_back(right);
-
-        if (i != 0)
-            nodes[0]->neighborhoods.push_back(left);
-    }
-
-    return nodes[0];
+/* a send sum to b */
+void send_value(Node *a, Node *b)
+{
+    b->neighborhoods.push_back(a);
 }
 
 #endif // NODE_HPP

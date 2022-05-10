@@ -6,6 +6,35 @@
 #include <numeric>
 bool DEBUG = false;
 
+std::vector<Node *> create_tree_from_core_nodes(std::vector<Node *> nodes)
+{
+    auto size = nodes.size();
+
+    if (size / 2 == 1)
+    {
+        auto left = nodes[0];
+        auto right = nodes[1];
+        receive_value(left, right);  // Left receive value from right
+        return {left};
+    }
+
+    auto new_nodes = std::vector<Node *>{};
+
+    for (auto i = 0; i < size; i += 2)
+    {
+        auto left = nodes[i]; 
+        auto right = nodes[i + 1];
+        receive_value(left, right); // Left receive value from right
+        new_nodes.push_back(left);
+    }
+
+    return create_tree_from_core_nodes(new_nodes);
+}
+
+Node *create_new_tree(std::vector<Node *> nodes)
+{
+    return create_tree_from_core_nodes(nodes)[0];
+}
 
 int main(int argc, char const *argv[])
 {

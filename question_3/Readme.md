@@ -50,23 +50,34 @@ que se atinja a raiz, onde a cada nível o número de nós é dividido
 por 2. **Caso o número de nós inicial não for divisível pro 2, o algoritmo não funciona**
 
 ```c++
-
-Node *create_new_tree(std::vector<Node *> nodes)
+std::vector<Node *> create_tree_from_core_nodes(std::vector<Node *> nodes)
 {
-
     auto size = nodes.size();
+
+    if (size / 2 == 1)
+    {
+        auto left = nodes[0];
+        auto right = nodes[1];
+        receive_value(left, right);  // Left receive value from right
+        return {left};
+    }
+
+    auto new_nodes = std::vector<Node *>{};
 
     for (auto i = 0; i < size; i += 2)
     {
-        auto left = nodes[i];
+        auto left = nodes[i]; 
         auto right = nodes[i + 1];
-        left->neighborhoods.push_back(right);
-
-        if (i != 0)
-            nodes[0]->neighborhoods.push_back(left);
+        receive_value(left, right); // Left receive value from right
+        new_nodes.push_back(left);
     }
 
-    return nodes[0];
+    return create_tree_from_core_nodes(new_nodes);
+}
+
+Node *create_new_tree(std::vector<Node *> nodes)
+{
+    return create_tree_from_core_nodes(nodes)[0];
 }
 ```
 
