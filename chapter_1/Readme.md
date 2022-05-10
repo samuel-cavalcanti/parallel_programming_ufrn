@@ -35,3 +35,12 @@ Make a table showing the numbers of receives and additions carried out by core
    - [Resposta Questão 9](question_9/Readme.md)
   
 
+
+## testes
+Foram feitos alguns scripts para testar as soluções apresentadas
+para  executa-lás:
+```sh
+chmod +x run_tests.sh
+./run_tests.sh
+```
+OBS: foi utilizado gcc na versão **11.2.0** e python na versão **3.10.4**
