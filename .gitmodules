@@ -1,0 +1,3 @@
+[submodule "parsec-benchmark"]
+	path = parsec-benchmark
+	url = git@github.com:samuel-cavalcanti/parsec-benchmark.git
