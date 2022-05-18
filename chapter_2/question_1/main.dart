@@ -12,7 +12,6 @@ Stream<Data> fetch(Stream<Data> streamData) async* {
   var deltaTime = 2.0;
   await for (Data data in streamData) {
     data.incrementTime(deltaTime);
-
     yield data;
   }
 }
@@ -34,7 +33,7 @@ Stream<Data> anotherOperations(Stream<Data> streamData) async* {
   }
 }
 
-Stream<Data> compose(List<Stream<Data> Function(Stream<Data>)> operations,
+Stream<Data> unPipelined(List<Stream<Data> Function(Stream<Data>)> operations,
     Stream<Data> dataStream) async* {
   for (final operation in operations) {
     dataStream = operation(dataStream);
@@ -42,6 +41,9 @@ Stream<Data> compose(List<Stream<Data> Function(Stream<Data>)> operations,
 
   yield* dataStream;
 }
+
+pipelined(List<Stream<Data> Function(Stream<Data>)> operations,
+    Stream<Data> dataStream) async {}
 
 void main() async {
   final data = List.generate(1000, (index) => Data(time: 0.0));
@@ -58,11 +60,12 @@ void main() async {
 
   double time = 0.0;
 
-  final dataStream = compose(operations, Stream.fromIterable(data));
+  final dataStream = unPipelined(operations, Stream.fromIterable(data));
 
   final result = await dataStream.toList();
 
-  result.forEach(
-    (e) => print('time: ${e.time}'),
-  );
+  final total =
+      result.map((e) => e.time).reduce((value, element) => value + element);
+
+  print('total $total');
 }
