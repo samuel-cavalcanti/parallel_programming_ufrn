@@ -18,9 +18,9 @@ Capítulo 2: 1-3, 5, 7, 10, 15-17, 19-21, 24; (13 questões)
    - [Resposta questão 3](question_3/Readme.md) 
 4. 
 
-5. Does the addition of cache and virtual memory to a von Neumann sys-
-tem change its designation as an SISD system ? What about the addition of
+5. Does the addition of cache and virtual memory to a von Neumann system change its designation as an SISD system ? What about the addition of
 pipelining? Multiple issue? Hardware multithreading ? 
+   - [Resposta questão 5](question_5/Readme.md) 
 
 6. 
 7. Discuss the differences in how a GPU and a vector processor might execute the following code:
