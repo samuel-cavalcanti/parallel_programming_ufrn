@@ -13,7 +13,9 @@ Capítulo 2: 1-3, 5, 7, 10, 15-17, 19-21, 24; (13 questões)
    - [Resposta questão 1](question_1/Readme.md) 
 
 2. Explain how a queue, implemented in hardware in the CPU, could be used to improve the performance of a write-through cache.
+   - [Resposta questão 2](question_2/Readme.md) 
 3. Recall the example involving cache reads of a two-dimensional array (page 22). How does a larger matrix and a larger cache affect the performance of the two pairs of nested loops? What happens if MAX = 8 and the cache can store four lines ? How many misses occur in the reads of A in the first pair of nested loops ? How many misses occur in the second pair ?
+   - [Resposta questão 3](question_3/Readme.md) 
 4. 
 
 5. Does the addition of cache and virtual memory to a von Neumann sys-
