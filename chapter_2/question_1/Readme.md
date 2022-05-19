@@ -57,3 +57,28 @@ ou seja,a primeira instrução dura 9 segundos, no entanto, no momento em que a 
 é finalizada,a segunda já começa a ser finalizada ou seja, demora apenas 2 nanosegundos até segunda operação ser finalizada e mais 2 nanosegundos para a terceira ser finalizada e assim por diante. Por tanto para executar todos os 1000 dados, o custo total fica:
         
         9 + 999*2 = 2007
+
+## 1.d
+
+No caso, considerando que a cache nível não falhe a tabela continua mesma,
+pois o fetch e store custam o mesmo 2 nanosegundos: 
+
+| Tempo em nanosegundos | Fetch | OP1  | OP2  | OP3  | OP4  | OP5  | Store |
+| --------------------- | ----- | ---- | ---- | ---- | ---- | ---- | ----- |
+| 10                    | 6     | 5    | wait | 4    | wait | 3    | 2     |
+| 11                    | 6     | wait | 5    | wait | 4    | wait | 3     |
+
+
+mas se imaginarmos que na 12 iteração o Fetch e Store passa a custar 5 nanosegundos:
+
+| Tempo em nanosegundos | Fetch | OP1  | OP2  | OP3  | OP4  | OP5  | Store |
+| --------------------- | ----- | ---- | ---- | ---- | ---- | ---- | ----- |
+| 10                    | 6     | 5    | wait | 4    | wait | 3    | 2     |
+| 11                    | 6     | wait | 5    | wait | 4    | wait | 3     |
+| 12                    | 6     | wait | wait | 5    | wait | 4    | 3     |
+| 13                    | 6     | wait | wait | wait | 5    | 4    | 3     |
+| 14                    | 6     | wait | wait | wait | 5    | 4    | 3     |
+| 15                    | 7     | 6    | wait | wait | 5    | 4    | 3     |
+| 16                    | 7     | wait | 6    | wait | wait | 5    | 4     |
+
+Quando mais lento fica a transferência para a memória principal, mais nítido fica o gargalo de Von Neumann, ou seja, percebe-se que a performance do processador fica limitado a taxa  de transferência de dados com a memória principal.  
