@@ -31,6 +31,7 @@ for (i = 0; i < n; i++) {
    sum += z[i]∗z[i];
 }
 ```
+   - [Resposta questão 7](question_7/Readme.md) 
 8. 
 9. 
 10. Suppose a program must execute 1012 instructions in order to solve a particular problem. Suppose further that a single processor system can solve the problem in 106 seconds (about 11.6 days). So, on average, the single processor system executes 106 or a million instructions per second. Now suppose that the program has been parallelized for execution on a distributed-memory system. Suppose also that if the parallel program uses p processors, each processor will execute 1012 /p instructions and each processor must send 109 ( p − 1) messages. Finally, suppose that there is no additional overhead in executing the
