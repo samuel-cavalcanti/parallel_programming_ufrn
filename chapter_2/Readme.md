@@ -39,7 +39,7 @@ parallel program. That is, the program will complete after each processor has ex
     1.  Suppose it takes 10⁻⁹ seconds to send a message. How long will it take the program to run with 1000 processors, if each processor is as fast as the single processor on which the serial program was run ?  
 
     2. Suppose it takes 10⁻³ seconds to send a message. How long will it take the program to run with 1000 processors ?
-
+   - [Resposta questão 10](question_10/Readme.md) 
 11. 
 12. 
 13. 
