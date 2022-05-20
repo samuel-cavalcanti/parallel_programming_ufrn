@@ -50,6 +50,7 @@ write-back caches. Also suppose that core 0 has the variable x in its cache, and
     2. Suppose that the shared-memory system in the previous part uses a
 directory-based protocol. What value will be assigned to y ? Why ?
     3.  Can you suggest how any problems you found in the first two parts might be solved ?
+   - [Resposta questão 15](question_15/Readme.md) 
 
 16.  
        1. Suppose the run-time of a serial program is given by T_serial = n2 , where the units of the run-time are in microseconds. Suppose that a parallelization of this program has run-time T_parallel = n2 /p + log2 (p). Write a program that finds the speedups and efficiencies of this program for various values of n and p. Run your program with n = 10, 20, 40, . . . , 320, and p = 1, 2, 4, . . . , 128. What happens to the speedups and efficiencies as p is increased and n is held fixed? What happens when p is fixed and n is increased ?
