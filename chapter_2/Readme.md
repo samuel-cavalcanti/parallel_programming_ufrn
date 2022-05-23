@@ -53,7 +53,7 @@ directory-based protocol. What value will be assigned to y ? Why ?
    - [Resposta questão 15](question_15/Readme.md) 
 
 16.  
-       1. Suppose the run-time of a serial program is given by $T_{serial} = n^{2}$ , where the units of the run-time are in microseconds. Suppose that a parallelization of this program has run-time $T_{parallel} = \frac{n^2}{p} + log_2(p)$. Write a program that finds the speedups and efficiencies of this program for various values of n and p. Run your program with $n = 10, 20, 40, . . . , 320$, and $p = 1, 2, 4, . . . , 128$. What happens to the speedups and efficiencies as p is increased and n is held fixed? What happens when p is fixed and n is increased ?
+       1. Suppose the run-time of a serial program is given by $$T_{serial} = n^{2}$$ , where the units of the run-time are in microseconds. Suppose that a parallelization of this program has run-time $T_{parallel} = \frac{n^2}{p} + log_2(p)$. Write a program that finds the speedups and efficiencies of this program for various values of n and p. Run your program with $n = 10, 20, 40, . . . , 320$, and $p = 1, 2, 4, . . . , 128$. What happens to the speedups and efficiencies as p is increased and n is held fixed? What happens when p is fixed and n is increased ? 
        2. Suppose that $T_{parallel} = \frac{T_{serial}}{p} + T_{overhead}$ . Also suppose that we fix $p$ and increase the problem size.   
             - Show that if $T_{overhead}$ grows more slowly than $T_{serial}$ , the parallel
              efficiency will increase as we increase the problem size.
