@@ -53,14 +53,15 @@ directory-based protocol. What value will be assigned to y ? Why ?
    - [Resposta questão 15](question_15/Readme.md) 
 
 16.  
-       1. Suppose the run-time of a serial program is given by T_serial = n2 , where the units of the run-time are in microseconds. Suppose that a parallelization of this program has run-time T_parallel = n2 /p + log2 (p). Write a program that finds the speedups and efficiencies of this program for various values of n and p. Run your program with n = 10, 20, 40, . . . , 320, and p = 1, 2, 4, . . . , 128. What happens to the speedups and efficiencies as p is increased and n is held fixed? What happens when p is fixed and n is increased ?
-       1. Suppose that T_parallel = T_serial /p + T_overhead . Also suppose that we fix p and increase the problem size.
-          - Show that if T_overhead grows more slowly than T_serial , the parallel
-          efficiency will increase as we increase the problem size.
-          - Show that if, on the other hand, T_overhead grows faster than T_serial , the parallel efficiency will decrease as we increase the problem size.
+       1. Suppose the run-time of a serial program is given by $T_{serial} = n^2$ , where the units of the run-time are in microseconds. Suppose that a parallelization of this program has run-time $T_{parallel} = \frac{n^2}{p} + log_2(p)$. Write a program that finds the speedups and efficiencies of this program for various values of n and p. Run your program with $n = 10, 20, 40, . . . , 320$, and $p = 1, 2, 4, . . . , 128$. What happens to the speedups and efficiencies as p is increased and n is held fixed? What happens when p is fixed and n is increased ?
+       2. Suppose that $T_{parallel} = \frac{T_{serial}}{p} + T_{overhead}$ . Also suppose that we fix $p$ and increase the problem size.   
+            - Show that if $T_{overhead}$ grows more slowly than $T_{serial}$ , the parallel
+             efficiency will increase as we increase the problem size.
+            - Show that if, on the other hand, $T_{overhead}$ grows faster than $T_{serial}$, the parallel efficiency will decrease as we increase the problem size.
+ - [Resposta questão 16](question_16/Readme.md)    
 17. 
 18. 
-19. Suppose T_serial = n and T_parallel = n/p + log2 (p), where times are in microseconds. If we increase p by a factor of k, find a formula for how much we’ll need to increase n in order to maintain constant efficiency. How much should we increase n by if we double the number of processes from 8 to 16 ? Is the parallel program scalable ?
+19. Suppose $T_{serial} = n$  and $T_{parallel} = \frac{n}{p} + log_2 (p)$, where times are in microseconds. If we increase p by a factor of k, find a formula for how much we’ll need to increase n in order to maintain constant efficiency. How much should we increase n by if we double the number of processes from 8 to 16 ? Is the parallel program scalable ?
 20. Is a program that obtains linear speedup strongly scalable ? Explain your answer.
 21. Bob has a program that he wants to time with two sets of data, _input_data1_ and _input_data2_. To get some idea of what to expect before adding timing functions to the code he’s interested in, he runs the program with two sets of data and the Unix shell command _time_:
       ```shell
