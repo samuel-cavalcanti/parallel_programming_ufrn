@@ -65,6 +65,7 @@ directory-based protocol. What value will be assigned to y ? Why ?
  - [Resposta questão 19](question_19/Readme.md)  
 
 20. Is a program that obtains linear speedup strongly scalable ? Explain your answer.
+ - [Resposta questão 20](question_20/Readme.md)  
 21. Bob has a program that he wants to time with two sets of data, _input_data1_ and _input_data2_. To get some idea of what to expect before adding timing functions to the code he’s interested in, he runs the program with two sets of data and the Unix shell command _time_:
       ```shell
       $ time ./bobs prog < input data1
