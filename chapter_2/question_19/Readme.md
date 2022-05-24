@@ -53,5 +53,4 @@ $A = \frac{8}{3}$
 
 ## O programa paralelo é escalável ?
 
-Dado a definição do autor sim. Para o autor escalável é quando a eficiência de um programa paralelo se mantém constante, ou seja, se existe uma taxa que relaciona o
-crescimento do tamanho do problema com o crescimento do número de threads/processos, então o programa paralelo escala.
+Dado a definição do autor sim. Para o autor escalável é quando a eficiência de um programa paralelo se mantém constante, ou seja, se existe uma taxa que relaciona o crescimento do tamanho do problema com o crescimento do número de threads/processos, então o programa paralelo é fracamente escalável (**_weakly scalable_**), .
