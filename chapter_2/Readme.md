@@ -78,7 +78,7 @@ directory-based protocol. What value will be assigned to y ? Why ?
       sys 0m0.111s
       ```
       The timer function Bob is using has millisecond resolution. Should Bob use it to time his program with the first set of data ? What about the second set of data ? Why or why not ?
-
+ - [Resposta questão 21](question_21/Readme.md)  
 22. 
 23. 
 24. If you haven’t already done so in Chapter 1, try to write pseudo-code for our tree-structured global sum, which sums the elements of _loc_bin_cts_. First consider how this might be done in a shared-memory setting. Then consider how this might be done in a distributed-memory setting. In the shared-memory setting, which variables are shared and which are private ?
