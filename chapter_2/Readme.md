@@ -82,3 +82,4 @@ directory-based protocol. What value will be assigned to y ? Why ?
 22. 
 23. 
 24. If you haven’t already done so in Chapter 1, try to write pseudo-code for our tree-structured global sum, which sums the elements of _loc_bin_cts_. First consider how this might be done in a shared-memory setting. Then consider how this might be done in a distributed-memory setting. In the shared-memory setting, which variables are shared and which are private ?
+ - [Resposta questão 24](question_24/Readme.md)  
