@@ -59,7 +59,8 @@ directory-based protocol. What value will be assigned to y ? Why ?
              efficiency will increase as we increase the problem size.
             - Show that if, on the other hand, $T_{overhead}$ grows faster than $T_{serial}$, the parallel efficiency will decrease as we increase the problem size.
  - [Resposta questão 16](question_16/Readme.md)    
-17. 
+17. A parallel program that obtains a speedup greater than p—the number of processes or threads—is sometimes said to have **superlinear speedup**. However, many authors don’t count programs that overcome “resource limitations” as having superlinear speedup. For example, a program that must use secondary storage for its data when it’s run on a single processor system might be able to fit all its data into main memory when run on a large distributed-memory system. Give another example of how a program might overcome a resource limitation and obtain speedups greater than p
+- [Resposta questão 17](question_17/Readme.md)  
 18. 
 19. Suppose $T_{serial} = n$  and $T_{parallel} = \frac{n}{p} + log_2 (p)$, where times are in microseconds. If we increase $p$ by a factor of $k$, find a formula for how much we’ll need to increase n in order to maintain constant efficiency. How much should we increase $n$ by if we double the number of processes from 8 to 16 ? Is the parallel program scalable ?
  - [Resposta questão 19](question_19/Readme.md)  
