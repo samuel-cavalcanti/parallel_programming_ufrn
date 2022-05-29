@@ -1,4 +1,6 @@
-20. Is a program that obtains linear speedup **strongly** scalable ? Explain your answer.
+# Questão 20
+
+Is a program that obtains linear speedup **strongly** scalable ? Explain your answer.
 
 Dado a definição do autor sim. Para o autor escalável é quando a eficiência de um programa paralelo se mantém constante. Linear speedup
 pode ser escrito pela seguinte expressão:

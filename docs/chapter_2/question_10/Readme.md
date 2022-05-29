@@ -1,8 +1,11 @@
-1.  Suppose a program must execute $10^{12}$ instructions in order to solve a particular problem. Suppose further that a single processor system can solve the problem in $10^6$ seconds (about 11.6 days). So, on average, the single processor system executes $10^6$ or a million instructions per second. Now suppose that the program has been parallelized for execution on a distributed-memory system. Suppose also that if the parallel program uses $p$ processors, each processor will execute $\frac{10^{12}}{p}$ instructions and each processor must send $10^9( p − 1)$ messages. Finally, suppose that there is no additional overhead in executing the
-parallel program. That is, the program will complete after each processor has executed all of its instructions and sent all of its messages, and there won’t be any delays due to things such as waiting for messages.  
-    1.  Suppose it takes $10^{-9}$ seconds to send a message. How long will it take the program to run with 1000 processors, if each processor is as fast as the single processor on which the serial program was run ?  
+# Questão 10
 
-    2. Suppose it takes $10^3$ seconds to send a message. How long will it take the program to run with 1000 processors ?
+
+Suppose a program must execute $10^{12}$ instructions in order to solve a particular problem. Suppose further that a single processor system can solve the problem in $10^6$ seconds (about 11.6 days). So, on average, the single processor system executes $10^6$ or a million instructions per second. Now suppose that the program has been parallelized for execution on a distributed-memory system. Suppose also that if the parallel program uses $p$ processors, each processor will execute $\frac{10^{12}}{p}$ instructions and each processor must send $10^9( p − 1)$ messages. Finally, suppose that there is no additional overhead in executing the parallel program. That is, the program will complete after each processor has executed all of its instructions and sent all of its messages, and there won’t be any delays due to things such as waiting for messages.
+
+1.  Suppose it takes $10^{-9}$ seconds to send a message. How long will it take the program to run with 1000 processors, if each processor is as fast as the single processor on which the serial program was run ?  
+
+2. Suppose it takes $10^3$ seconds to send a message. How long will it take the program to run with 1000 processors ?
 
 
 ## main.py

@@ -1,5 +1,6 @@
+# Questão 1
 
-1. Devise formulas for the functions that calculate **_my_first_i_** and **_my_last_i_** in the global sum example. Remember that each core should be assigned roughly the same number of elements of computations in the loop. Hint: First consider the case when **_n_** is evenly divisible by **_p_**
+ Devise formulas for the functions that calculate **_my_first_i_** and **_my_last_i_** in the global sum example. Remember that each core should be assigned roughly the same number of elements of computations in the loop. Hint: First consider the case when **_n_** is evenly divisible by **_p_**
 
 ```c
 struct range

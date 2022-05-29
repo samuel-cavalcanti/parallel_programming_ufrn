@@ -1,4 +1,6 @@
-3. Try to write pseudo-code for the tree-structured global sum illustrated in
+# Questão 3
+
+Try to write pseudo-code for the tree-structured global sum illustrated in
 Figure 1.1. Assume the number of cores is a power of two (1, 2, 4, 8, . . . ).
 
 

@@ -1,15 +1,17 @@
-21. Bob has a program that he wants to time with two sets of data, _input_data1_ and _input_data2_. To get some idea of what to expect before adding timing functions to the code he’s interested in, he runs the program with two sets of data and the Unix shell command _time_:
-      ```shell
-      $ time ./bobs prog < input data1
-      real 0m0.001s
-      user 0m0.001s
-      sys 0m0.000s
-      $ time ./bobs prog < input data2
-      real 1m1.234s
-      user 1m0.001s
-      sys 0m0.111s
-      ```
-      The timer function Bob is using has millisecond resolution. Should Bob use it to time his program with the first set of data ? What about the second set of data ? Why or why not ?
+# Questão 21
+
+Bob has a program that he wants to time with two sets of data, _input_data1_ and _input_data2_. To get some idea of what to expect before adding timing functions to the code he’s interested in, he runs the program with two sets of data and the Unix shell command _time_:
+```shell
+$ time ./bobs prog < input data1
+real 0m0.001s
+user 0m0.001s
+sys 0m0.000s
+$ time ./bobs prog < input data2
+real 1m1.234s
+user 1m0.001s
+sys 0m0.111s
+```
+The timer function Bob is using has millisecond resolution. Should Bob use it to time his program with the first set of data ? What about the second set of data ? Why or why not ?
 
 
 

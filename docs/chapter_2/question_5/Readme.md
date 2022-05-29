@@ -1,4 +1,6 @@
-5. Does the addition of cache and virtual memory to a von Neumann system change its designation as an SISD system ? What about the addition of
+# Questão 5
+
+Does the addition of cache and virtual memory to a von Neumann system change its designation as an SISD system ? What about the addition of
 pipelining? Multiple issue? Hardware multithreading ? 
 
 

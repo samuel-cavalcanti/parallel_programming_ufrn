@@ -1,4 +1,6 @@
-7. Discuss the differences in how a GPU and a vector processor might execute the following code:
+# Questão 7
+
+Discuss the differences in how a GPU and a vector processor might execute the following code:
 ```c++
 sum = 0.0;
 for (i = 0; i < n; i++) {

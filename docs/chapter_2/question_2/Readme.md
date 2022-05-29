@@ -1,4 +1,6 @@
-2. Explain how a queue, implemented in hardware in the CPU, could be used to improve the performance of a write-through cache.
+# Questão 2
+
+Explain how a queue, implemented in hardware in the CPU, could be used to improve the performance of a write-through cache.
 
 
 Como observado na [questão 1](../question_1/Readme.md) cada momento que a escrita é debilitada, fica nítido o gargalo de Von Neuman se considerarmos que uma escrita na cache é uma escrita na memória principal, então cada Store iria demorar __*50*__ nano segundos. Colocando uma fila e supondo que ela nunca fique cheia, a CPU não irá gastar tanto tempo no Store, mas uma vez a fila

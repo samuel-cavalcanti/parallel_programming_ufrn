@@ -1,4 +1,6 @@
-1. When we were discussing floating point addition, we made the simplifying assumption that each of the functional units took the same amount of time. Suppose that fetch and store each take 2 nanoseconds and the remaining operations each take 1 nanosecond.  
+# Questão 1
+
+When we were discussing floating point addition, we made the simplifying assumption that each of the functional units took the same amount of time. Suppose that fetch and store each take 2 nanoseconds and the remaining operations each take 1 nanosecond.  
    a. How long does a floating point addition take with these assumptions ?  
 
    b. How long will an unpipelined addition of 1000 pairs of floats take with these assumptions ?  

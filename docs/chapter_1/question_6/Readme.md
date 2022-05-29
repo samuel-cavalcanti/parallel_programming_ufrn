@@ -1,4 +1,6 @@
-6. Derive formulas for the number of receives and additions that core 0 carries out using:  
+# Questão 6
+
+Derive formulas for the number of receives and additions that core 0 carries out using:  
    a. the original pseudo-code for a global sum  
    b. the tree-structured global sum.  
 Make a table showing the numbers of receives and additions carried out by core

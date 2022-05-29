@@ -1,9 +1,12 @@
-15. 1. Suppose a shared-memory system uses snooping cache coherence and
+# Questão 15
+
+1. Suppose a shared-memory system uses snooping cache coherence and
 write-back caches. Also suppose that core 0 has the variable x in its cache, and it executes the assignment x = 5. Finally suppose that core 1 doesn’t have x in its cache, and after core 0’s update to x, core 1 tries to execute y = x. What value will be assigned to y ? Why ?  
 
-    2. Suppose that the shared-memory system in the previous part uses a
+2. Suppose that the shared-memory system in the previous part uses a
 directory-based protocol. What value will be assigned to y ? Why ?
-    1.  Can you suggest how any problems you found in the first two parts might be solved ?
+
+3.  Can you suggest how any problems you found in the first two parts might be solved ?
 
 
 ## 1 What value will be assigned to y ? Why ?

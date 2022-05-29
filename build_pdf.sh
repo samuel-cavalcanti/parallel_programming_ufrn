@@ -11,12 +11,12 @@ for chapter_dir in chapter_1 chapter_2; do
 
         cd $(pwd)/$question_dir;
         
-        mkdir -p $OUTPUT_DIR/$question_dir
+        # mkdir -p $OUTPUT_DIR/$question_dir
 
 
         # echo "$(pwd)"
-        pandoc Readme.md -o output.pdf --pdf-engine=xelatex;
-        mv output.pdf $OUTPUT_DIR/$question_dir
+        # pandoc Readme.md -o output.pdf --pdf-engine=xelatex;
+        # mv output.pdf $OUTPUT_DIR/$question_dir
 
         cd ../../;
 

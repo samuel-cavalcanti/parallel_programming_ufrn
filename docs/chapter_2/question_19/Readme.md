@@ -1,4 +1,6 @@
-19. Suppose $T_{serial} = n$  and $T_{parallel} = \frac{n}{p} + log_2 (p)$, where times are in microseconds. If we increase $p$ by a factor of $k$, find a formula for how much we’ll need to increase n in order to maintain constant efficiency. How much should we increase $n$ by if we double the number of processes from 8 to 16 ? Is the parallel program scalable ?
+# Questão 19
+
+Suppose $T_{serial} = n$  and $T_{parallel} = \frac{n}{p} + log_2 (p)$, where times are in microseconds. If we increase $p$ by a factor of $k$, find a formula for how much we’ll need to increase n in order to maintain constant efficiency. How much should we increase $n$ by if we double the number of processes from 8 to 16 ? Is the parallel program scalable ?
 
 ##  Encontre uma formula para o quanto nós teremos que aumentar $n$ para obter uma eficiência constante.
 
