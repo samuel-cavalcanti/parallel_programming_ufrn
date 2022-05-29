@@ -12,7 +12,8 @@ theme:
     toggle:
       icon: material/weather-sunny
       name: Switch to light mode
-
+  features:
+    - navigation.tabs
 markdown_extensions:
   - pymdownx.tasklist:
       custom_checkbox: true

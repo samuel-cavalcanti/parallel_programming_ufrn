@@ -16,7 +16,7 @@ continua sendo Single Instruction Single Data.
 
 ## the addition of pipelining
 
-Como demostrado na [questão 1](../question_1/Readme.md), ao adicionar um pipeline, podemos realizar a mesma instrução complexa em múltiplos dados,
+Como demostrado na [questão 1](../question_01/Readme.md), ao adicionar um pipeline, podemos realizar a mesma instrução complexa em múltiplos dados,
 ou seja, Single Instruction Multiple Data System, portanto sim.
 
 ## the addition of Multiple issue and Hardware multithreading
