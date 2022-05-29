@@ -1,6 +1,3 @@
-from tomlkit import value
-
-
 def new_interval(thread_index: int, p: int,  n: int) -> tuple[int, int]:
     """Calculo de indice das threads questão 1"""
     division = n // p
