@@ -35,7 +35,8 @@ plugins:
        cover_subtitle: Resolução feita por Samuel Cavalcanti
        copyright: Copyright © 2022 Samuel Cavalcanti
        output_path: assets/pdf/document.pdf
-       
+       render_js: true 
+       headless_chrome_path: chromium
       
       #author: WHO
       #copyright: ANY TEXT
