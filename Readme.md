@@ -50,4 +50,3 @@ mkdocs build
 ```
 
 o pdf gerado será encontrado no diretório **site/assets/pdf/**.
-O pdf da documentação atual pode ser pode ser baixado ou visualizado no link [amuel-cavalcanti.github.io/parallel_programming_ufrn/assets/pdf/document.pdf](https://samuel-cavalcanti.github.io/parallel_programming_ufrn/assets/pdf/document.pdf)
