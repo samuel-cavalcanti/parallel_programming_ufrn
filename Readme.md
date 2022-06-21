@@ -19,23 +19,26 @@ para instalar as dependências:
 pip install -r requirements.txt
 ```
 
-### visualizar a documentação
+### Visualizar a documentação
 
 ```shell
 mkdocs serve
 ```
 
 
-### por a documentação em produção
-
-para gerar a página no github
+### Por a documentação em  Programação
+Já foi configurado o CI do github [ci.yml](..github/workflows/ci.yml)
+para fazer o deploy da documentação assim que for atualizado o branch
+main, por tanto não é aconselhável fazer o deploy manualmente.
+Mas caso necessário,
+para gerar a página no github:
 ```shell
 mkdocs gh-deploy --force
 ```
 a documentação pode ser visualizada na página:  
 [samuel-cavalcanti.github.io/parallel_programming_ufrn/](https://samuel-cavalcanti.github.io/parallel_programming_ufrn/)
 
-### gerando o PDF
+### Gerando o PDF
 
 Para gerar o Pdf foi utilizado o plugin **with-pdf**. Informações
 sobre o plugin pode ser encontrado no repositório do projeto [github.com/orzih/mkdocs-with-pdf](https://github.com/orzih/mkdocs-with-pdf)
