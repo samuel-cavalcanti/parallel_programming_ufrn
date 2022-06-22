@@ -5,7 +5,7 @@ Capítulo 3: 2, 4, 6, 9, 11, 12, 13, 16, 17, 19, 20, 22, 23, 27 e 28 (16 questõ
 
 1. 
 2. Modify the trapezoidal rule so that it will correctly estimate the integral even if _comm_sz_ doesn’t evenly divide n. (You can still assume that n $\geq$ _comm_sz_.).
-
+    - [Resposta questão 2](question_02/Readme.md) 
 3. 
 
 4. Modify the program that just prints a line of output from each process (_mpi_output.c_) so that the output is printed in process rank order: process 0s output first, then process 1s, and so on.
