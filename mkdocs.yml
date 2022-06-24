@@ -30,13 +30,13 @@ extra_javascript:
   - https://polyfill.io/v3/polyfill.min.js?features=es5
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
 plugins:
-    - with-pdf:
-       author: Samuel Cavalcanti
-       cover_subtitle: Resolução feita por Samuel Cavalcanti
-       copyright: Copyright © 2022 Samuel Cavalcanti
-       output_path: assets/pdf/document.pdf
-       render_js: true 
-       headless_chrome_path: chromium
+    # - with-pdf:
+    #    author: Samuel Cavalcanti
+    #    cover_subtitle: Resolução feita por Samuel Cavalcanti
+    #    copyright: Copyright © 2022 Samuel Cavalcanti
+    #    output_path: assets/pdf/document.pdf
+    #    render_js: true 
+    #    headless_chrome_path: chromium
       
       #author: WHO
       #copyright: ANY TEXT
