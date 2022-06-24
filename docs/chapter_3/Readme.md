@@ -9,12 +9,14 @@ Capítulo 3: 2, 4, 6, 9, 11, 12, 13, 16, 17, 19, 20, 22, 23, 27 e 28 (16 questõ
 3. 
 
 4. Modify the program that just prints a line of output from each process (_mpi_output.c_) so that the output is printed in process rank order: process 0s output first, then process 1s, and so on.
+    - [Resposta questão 4](question_04/Readme.md)
 5. 
 
 6. Suppose _comm_sz_ = 4 and suppose that **x** is a vector with $n = 14$ components.  
       1. How would the components of **x** be distributed among the processes in program that used a block distribution ?
       2. How would the components of **x** be distributed among the processes in a program that used a cyclic distribution ?
       3. How would the components of x be distributed among the processes in a program that used a block-cyclic distribution with blocksize $b =2$ ?
+    <!-- - [Resposta questão 6](question_06/Readme.md) -->
 7. 
 8. 
 9.  Write an MPI program that implements multiplication of a vector by a scalar and dot product. The user should enter two vectors and a scalar, all of which are read in by process 0 and distributed among the processes. The results are calculated and collected onto process 0, which prints them. You can assume that $n$, the order of the vectors, is evenly divisible by _comm_sz_
