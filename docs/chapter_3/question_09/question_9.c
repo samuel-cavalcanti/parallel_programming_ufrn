@@ -18,7 +18,7 @@ double local_dot(double *v_1, double *v_2, int size);
 double *local_scalar_multiply(double *v, int size, double scalar);
 
 double get_global_dot(double *local_dot);
-double *get_global_vector(double *local_vector, int local_size, int global_size, int my_rank);
+double *send_global_vector_to_root(double *local_vector, int local_size, int global_size, int my_rank);
 void print_vector(double *vector, int size);
 
 typedef struct range
@@ -52,8 +52,8 @@ int main(int argc, char *argv[])
 
     double dot_result = get_global_dot(&local_dot_result);
 
-    double *scalar_v1 = get_global_vector(local_scalar_v1, local_input.vector_size, local_input.vector_size * comm_sz, my_rank);
-    double *scalar_v2 = get_global_vector(local_scalar_v2, local_input.vector_size, local_input.vector_size * comm_sz, my_rank);
+    double *scalar_v1 = send_global_vector_to_root(local_scalar_v1, local_input.vector_size, local_input.vector_size * comm_sz, my_rank);
+    double *scalar_v2 = send_global_vector_to_root(local_scalar_v2, local_input.vector_size, local_input.vector_size * comm_sz, my_rank);
 
     if (my_rank == 0)
     {
@@ -103,7 +103,7 @@ double get_global_dot(double *local_dot)
     return result_dot;
 }
 
-double *get_global_vector(double *local_vector, int local_size, int global_size, int my_rank)
+double *send_global_vector_to_root(double *local_vector, int local_size, int global_size, int my_rank)
 {
     double *global_vector = NULL;
 
