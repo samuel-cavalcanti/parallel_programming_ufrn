@@ -25,9 +25,13 @@ Capítulo 3: 2, 4, 6, 9, 11, 12, 13, 16, 17, 19, 20, 22, 23, 27 e 28 (16 questõ
 
 10. 
 11. Finding **prefix sums** is a generalization of global sum. Rather than simply finding the sum of $n$ values,  
-$x_0 + x_1 + \cdot \cdot \cdot + x_{n-1}$  
+$$
+x_0 + x_1 + \cdot \cdot \cdot + x_{n-1}
+$$  
 the prefix sums are the n partial sums  
-$x_0, x_0 + x_1, x_0 + x_1 + x_2,   \cdot \cdot \cdot, x_0 + x_1 \cdot \cdot \cdot + x_{n-1}$  
+$$
+x_0, x_0 + x_1, x_0 + x_1 + x_2,   \cdot \cdot \cdot, x_0 + x_1 \cdot \cdot \cdot + x_{n-1}
+$$  
     1. Devise a serial algorithm for computing the $n$ prefix sums of an array with $n$ elements.
     2. Parallelize your serial algorithm for a system with $n$ processes, each of which is storing one of the _x_is_.
     3. Suppose $n = 2^k$ for some positive integer $k$. Can you devise a serial algorithm and a parallelization of the serial algorithm so that the parallel algorithm requires only $k$ communication phases ?
