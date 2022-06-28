@@ -28,7 +28,7 @@ double *send_global_vector_to_root(double *local_vector, int local_size,
 double *calculate_n_prefix_sums(double v[], int size);
 
 void update_prefix_sums_vector(double vector[], int size, double value);
-double receive_last_prefix_sum(int source_node, int message_tag);
+
 void update_prefix_sums(int my_rank, double *local_prefix_sum,
                         int vector_size, int message_tag);
 
@@ -40,35 +40,51 @@ int main(int argc, char *argv[])
 
     int message_tag = 0;
 
+    int sync_step = 1;
+    int n = 1;
+
     MPI_Init(&argc, &argv);
 
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
 
     input local_input = read_local_input(argc, argv, my_rank, comm_sz);
-    double *local_prefix_sum = calculate_n_prefix_sums(local_input.v_1,
-                                                       local_input.vector_size);
+    double *local_prefix_sum = calculate_n_prefix_sums(local_input.v_1, local_input.vector_size);
 
-    if (my_rank != 0) // is not root process
+    /*
+        butterfly algorithm
+    */
+    double last_sum = local_prefix_sum[local_input.vector_size - 1];
+    for (int k = 0; (1 << k) < comm_sz; k++)
+    // k varia entre  0,1,2,4,8,16 ... até ser maior que comm_sz
     {
-        double sum_source_node = receive_last_prefix_sum(my_rank - 1,
-                                                         message_tag);
+        int partner = my_rank ^ (1 << k); // por algum motivo isso funciona.
+        double last_sum_partner;
 
-        update_prefix_sums_vector(local_prefix_sum,
-                                  local_input.vector_size, sum_source_node);
+        MPI_Sendrecv(&last_sum, 1, MPI_DOUBLE, partner, message_tag,
+                     &last_sum_partner, 1, MPI_DOUBLE, partner, message_tag,
+                     MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+        /*
+          o valores do  processo p é atualizado pelos valores do processo p -1
+          mas os valores do processo p -1 não é atualizado com os valores do processo p.
+          Exemplo:
+                processo 1 atualiza o seu vetor local com o último valor do processo 0, mas
+                o processo 0 não atualiza seu vetor local com o último valor do processo 1.
+        */
+        if (my_rank > partner)
+            update_prefix_sums_vector(local_prefix_sum,
+                                      local_input.vector_size, last_sum_partner);
+
+        /*
+            mesmo que processo 0 não atualiza seu vetor local com o último valor do processo 1.
+            o processo 0 deve enviar o seu valor + o do processo 1 para o processo 2.
+        */
+        last_sum += last_sum_partner;
     }
 
-    if (my_rank != comm_sz - 1) // is not last process
-    {
-        double last_prefix_sum = local_prefix_sum[local_input.vector_size - 1];
-        MPI_Send(&last_prefix_sum, 1, MPI_DOUBLE,
-                 my_rank + 1, message_tag, MPI_COMM_WORLD);
-    }
-
-    double *global_prefix_sum = send_global_vector_to_root(local_prefix_sum,
-                                                           local_input.vector_size,
-                                                           local_input.input_size,
-                                                           my_rank);
+    double *global_prefix_sum = send_global_vector_to_root(local_prefix_sum, local_input.vector_size,
+                                                           local_input.input_size, my_rank);
     if (my_rank == 0)
     {
         printf("\t\tResult\n");
@@ -91,8 +107,8 @@ double *send_global_vector_to_root(double *local_vector, int local_size,
     {
         global_vector = malloc(global_size * sizeof(double));
     }
-    MPI_Gather(local_vector, local_size, MPI_DOUBLE, global_vector,
-               local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+    MPI_Gather(local_vector, local_size, MPI_DOUBLE,
+               global_vector, local_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     return global_vector;
 }
@@ -202,22 +218,8 @@ void update_prefix_sums(int my_rank, double *local_prefix_sum,
 {
     int source_node = my_rank - 1;
     double last_prefix_sum_source_node;
-    MPI_Recv(&last_prefix_sum_source_node,
-             1,
-             MPI_DOUBLE,
-             source_node,
-             message_tag,
-             MPI_COMM_WORLD,
-             MPI_STATUS_IGNORE);
-}
-
-double receive_last_prefix_sum(int source_node, int message_tag)
-{
-    double last_prefix_sum_source_node;
     MPI_Recv(&last_prefix_sum_source_node, 1, MPI_DOUBLE,
              source_node, message_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-    return last_prefix_sum_source_node;
 }
 
 double *calculate_n_prefix_sums(double v[], int size)

@@ -28,7 +28,7 @@ double *send_global_vector_to_root(double *local_vector, int local_size,
 double *calculate_n_prefix_sums(double v[], int size);
 
 void update_prefix_sums_vector(double vector[], int size, double value);
-double receive_last_prefix_sum(int source_node, int message_tag);
+
 void update_prefix_sums(int my_rank, double *local_prefix_sum,
                         int vector_size, int message_tag);
 
@@ -40,6 +40,9 @@ int main(int argc, char *argv[])
 
     int message_tag = 0;
 
+    int sync_step = 1;
+    int n = 1;
+
     MPI_Init(&argc, &argv);
 
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
@@ -49,21 +52,27 @@ int main(int argc, char *argv[])
     double *local_prefix_sum = calculate_n_prefix_sums(local_input.v_1,
                                                        local_input.vector_size);
 
-    if (my_rank != 0) // is not root process
-    {
-        double sum_source_node = receive_last_prefix_sum(my_rank - 1,
-                                                         message_tag);
+    double last_sum = local_prefix_sum[local_input.vector_size - 1];
+    /*
+        https://stackoverflow.com/questions/10801154/gathering-results-of-mpi-scan
 
-        update_prefix_sums_vector(local_prefix_sum,
-                                  local_input.vector_size, sum_source_node);
-    }
+         MPI_Scan é semelhante ao Reduce , só que a cada soma parcial, ele devolve o
+         seu valor para todos os processos.
+         considerando a entrada: [1,2,3,4,5,6,7,8] para 4 processos:
 
-    if (my_rank != comm_sz - 1) // is not last process
-    {
-        double last_prefix_sum = local_prefix_sum[local_input.vector_size - 1];
-        MPI_Send(&last_prefix_sum, 1, MPI_DOUBLE,
-                 my_rank + 1, message_tag, MPI_COMM_WORLD);
-    }
+                                             p0   p1     p2    p3
+         divisão da entrada entre processo: [1,2] [3,4]  [5,6] [7,8]
+         o MPI_Scan será:
+         sendbuf:  3  ,  7 , 11 ,  15, a suas somas parciais serão:
+         recvbuf:  3  , 3+7 , 3+7+11, 3+7+15
+
+    */
+    double partial_sum_scan_buf;
+    MPI_Scan(&last_sum, &partial_sum_scan_buf, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
+
+    // para eliminar a o last sum somado duas vezes.
+    double value = partial_sum_scan_buf - last_sum;
+    update_prefix_sums_vector(local_prefix_sum, local_input.vector_size, value);
 
     double *global_prefix_sum = send_global_vector_to_root(local_prefix_sum,
                                                            local_input.vector_size,
@@ -202,22 +211,9 @@ void update_prefix_sums(int my_rank, double *local_prefix_sum,
 {
     int source_node = my_rank - 1;
     double last_prefix_sum_source_node;
-    MPI_Recv(&last_prefix_sum_source_node,
-             1,
-             MPI_DOUBLE,
-             source_node,
-             message_tag,
-             MPI_COMM_WORLD,
-             MPI_STATUS_IGNORE);
-}
-
-double receive_last_prefix_sum(int source_node, int message_tag)
-{
-    double last_prefix_sum_source_node;
     MPI_Recv(&last_prefix_sum_source_node, 1, MPI_DOUBLE,
-             source_node, message_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-
-    return last_prefix_sum_source_node;
+             source_node, message_tag, MPI_COMM_WORLD,
+             MPI_STATUS_IGNORE);
 }
 
 double *calculate_n_prefix_sums(double v[], int size)
