@@ -146,7 +146,7 @@ double global_sum_ring_pass(double local_sum, int my_rank, int comm_sz, int mess
     double global_sum = 0;
     double value = local_sum;
 
-    for (int i = 0; i < comm_sz; i++)
+    for (int phase = 0; phase < comm_sz; phase++)
     {
         MPI_Sendrecv_replace(&value, 1, MPI_DOUBLE, dest, message_tag,
                              source, message_tag, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
