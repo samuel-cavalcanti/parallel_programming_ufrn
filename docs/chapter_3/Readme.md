@@ -50,17 +50,19 @@ $$ x_0, x_0 + x_1, x_0 + x_1 + x_2,   \cdot \cdot \cdot, x_0 + x_1 \cdot \cdot \
 
 
 12. An alternative to a butterfly-structured allreduce is a **ring-pass** structure. In a ring-pass, if there are $p$ processes, each process $q$ sends data to process $q + 1$, except that process $p − 1$ sends data to process $0$. This is repeated until each process has the desired result. Thus, we can implement allreduce with the following code:
-    ```c++
+    ```c
     sum = temp val = my val;
 
     for (i = 1; i < p; i++) {
-        MPI Sendrecv replace(&temp val, 1, MPI INT, dest,
+        MPI_Sendrecv_replace(&temp_val, 1, MPI_INT, dest,
         sendtag, source, recvtag, comm, &status);
         sum += temp val;
     }
     ```
     1. Write an MPI program that implements this algorithm for allreduce. How does its performance compare to the butterfly-structured allreduce ?
     2. Modify the MPI program you wrote in the first part so that it implements prefix sums.
+
+          - [Resposta questão 12](question_12/Readme.md)
 
 13. MPI Scatter and MPI Gather have the limitation that each process must send or receive the same number of data items. When this is not the case, we must use the MPI functions MPI Gatherv and MPI Scatterv. Look at the man pages for these functions, and modify your vector sum, dot product program so that it can correctly handle the case when n isn’t evenly divisible by
 _comm_sz_.
