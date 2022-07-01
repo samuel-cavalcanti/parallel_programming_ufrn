@@ -85,6 +85,8 @@ _comm_sz_.
     ```
     Modify the _Read_vector_ and _Print_vector_ functions so that they use an MPI datatype created by a call to _MPI_Type_contiguous_ and a _count_ argument of 1 in the calls to _MPI_Scatter_ and _MPI_Gather_.
 
+    - [Resposta questão 17](question_17/Readme.md)
+
 18. 
 19. _MPI_Type_indexed_ can be used to build a derived datatype from arbitrary array elements. Its syntax is
     ```c++ 
