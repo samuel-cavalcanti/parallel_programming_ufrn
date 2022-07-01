@@ -1,4 +1,4 @@
-# questão 16
+# Questão 16
 
 Suppose _comm_sz_ $= 8$ and the vector **x** $= (0, 1, 2, . . . , 15)$ has been distributed among the processes using a block distribution. Draw a diagram illustrating the steps in a butterfly implementation of allgather of **x**
 
