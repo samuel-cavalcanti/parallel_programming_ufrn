@@ -67,6 +67,8 @@ $$ x_0, x_0 + x_1, x_0 + x_1 + x_2,   \cdot \cdot \cdot, x_0 + x_1 \cdot \cdot \
 13. MPI Scatter and MPI Gather have the limitation that each process must send or receive the same number of data items. When this is not the case, we must use the MPI functions MPI Gatherv and MPI Scatterv. Look at the man pages for these functions, and modify your vector sum, dot product program so that it can correctly handle the case when n isn’t evenly divisible by
 _comm_sz_.
 
+    - [Resposta questão 13](question_13/Readme.md)
+
 14. 
 15. 
 
