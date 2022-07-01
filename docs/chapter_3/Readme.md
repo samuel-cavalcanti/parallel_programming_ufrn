@@ -73,6 +73,9 @@ _comm_sz_.
 15. 
 
 16. Suppose _comm_sz_ $= 8$ and the vector **x** $= (0, 1, 2, . . . , 15)$ has been distributed among the processes using a block distribution. Draw a diagram illustrating the steps in a butterfly implementation of allgather of **x**
+
+    - [Resposta questão 16](question_16/Readme.md)
+
 17. _MPI_Type_contiguous_ can be used to build a derived datatype from a collection of contiguous elements in an array. Its syntax is
     ```c++ 
     int MPI_Type_contiguous(
