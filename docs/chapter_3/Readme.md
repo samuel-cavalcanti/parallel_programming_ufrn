@@ -115,6 +115,8 @@ _comm_sz_.
     0 should read in an $n \times n$ matrix as a one-dimensional array, create the derived datatype, and send the upper triangular part with a single call to _MPI_Send_. Process 1 should receive the upper triangular part with a single call ot _MPI_Recv_ and then print
     the data it received.
 
+    - [Resposta questão 19](question_19/Readme.md)
+
 20. The functions _MPI_Pack_ and _MPI_Unpack_ provide an alternative to derived datatypes for grouping data. _MPI_Pack_ copies the data to be sent, one block at a time, into a user-provided buffer. The buffer can then be sent and received. After the data is received, _MPI_Unpack_ can be used to unpack it from the receive buffer. The syntax of _MPI_Pack_ is
     ```c++ 
     int MPI_Pack(
