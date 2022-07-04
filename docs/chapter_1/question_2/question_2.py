@@ -71,12 +71,20 @@ def test_with_my_exemple():
         for predict_index, expected_index in zip(predict, expected):
             assert predict_index == expected_index, f'ERROR\npredict: {predict}\nexpected:{expected}'
 
-    # [print(f' thread index: {i}  indices {values} total cost: {cost_computation(values)}')
-    #  for i, values in enumerate(threads_computations)]
+   
     print('Test question 2 success')
 
 def cost_computation(threads_computation):
     return  sum([2*(v+1) for v in threads_computation])
 
+
+def test():
+    threads_computations = equalize_computation(p=4, n=16)
+    print(threads_computations)
+
+    [print(f' thread index: {i}  indices {values} total cost: {cost_computation(values)}')
+     for i, values in enumerate(threads_computations)]
+
 if __name__ == '__main__':
-    test_with_my_exemple()
+    test()
+    # test_with_my_exemple()

@@ -28,7 +28,7 @@ a abordagem ingenua do core 0 esperar todos os outros e somar todo de uma vez.
 
 
 Podemos observar claramente que a abordagem ingênua segue a formula,
-**_p -1_** e quando usamos a árvore, percebemos que a cada 2 núcleos,
-o número de ligações amentar em 1, ou seja, **_log(p)_** de base 2.
-Podemos ver o número de ligações crescendo linearmente com cada dois núcleos na imagem abaixo
+$p -1$ e quando usamos a árvore, percebemos que a cada 2 núcleos,
+o número de ligações amentar em $p = 2^n$, ou seja, $n = log_2(p)$.
+Podemos ver o número de ligações crescendo dois núcleos na imagem abaixo
 ![Global Sum](global_sum.png)

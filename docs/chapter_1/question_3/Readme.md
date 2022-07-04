@@ -10,7 +10,7 @@ Para criar a árvore, foi considerado que o vetor principal já foi igualmente e
 ## Representação de um Nó
 
 Neste caso foi representado o nó, como uma estrutura que possui um vetor de vizinhos e outro ponteiro para um vetor de inteiros, na prática,
-o ponteiro para um vetor de inteiros, seria usando o design pattern chamado **Future**, ou um **Option\<Future\>**. 
+o ponteiro para um vetor de inteiros, seria usando o design pattern chamado **Future**, ou um **Option\<Future\>**, ou **Option\<thread\>**. 
 
 Também foi criado dois construtores um construtor que representa,
 a inicialização do Nó por meio dos seus vizinhos a esquerda e direita,
@@ -108,6 +108,5 @@ int compute_node(Node &node)
 
     return result_data;
 }
-
-
 ```
+![](global_sum.png)
