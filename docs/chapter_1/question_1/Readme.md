@@ -39,6 +39,7 @@ atribuir todo o "restante" no processo $0$ e repetir a mesma ideia, ou seja, o p
 | r    | a       |
 | r +1 | a       |
 | ..   | ...     |
+
 Pensando em termos de intervalo ficaria assim:
 $$ p_0 = [0:a+r] $$
 $$ p_1 = [a + r: 2a +r] $$
@@ -47,6 +48,7 @@ $$ p_n =[an +r: (n+1)a +r] $$
 Essa primeira ideia é justamente a função **new_range**. Perceba
 que podemos melhorar ainda mais o algoritmo, podemos dividir $r$
 para os primeiros $p_r$ cores até que não "reste" mais nada  atribuindo $+1$ no tamanho dos $p_r$ cores.
+
 | $p$  | tamanho |
 | ---- | ------- |
 | 0    | a+1     |
