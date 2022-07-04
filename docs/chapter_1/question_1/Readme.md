@@ -17,7 +17,7 @@ Para resolver o problema primeiro, temos que pensar no caso mais simples onde $n
 $$ \frac{n}{p} = a $$
 $$ n = ap $$
 
-nesse caso, podemos dra pedaços de tamanho $a$ para cada processo.
+nesse caso, podemos dar pedaços de tamanho $a$ para cada processo.
 Onde o primeiro pedaço teria o primeiro índice em $0$ e terminaria no indicie $a-1$. o segundo pedaço começaria em $a$ e terminaria em $2*a -1$. ou seja..
 $$ p_0 = [0:a] $$
 $$ p_1 = [a:2a] $$
