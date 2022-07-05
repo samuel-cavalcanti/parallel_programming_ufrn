@@ -11,7 +11,8 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
-          submodules: true
+          
+          submodules: 'true'
       - run: sudo apt-get install chromium-browser
       # - run: git submodule sync
       - run: pip install -r requirements.txt
