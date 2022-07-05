@@ -7,12 +7,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
           submodules: true
       - run: sudo apt-get install chromium-browser
-      - run: git submodule sync
+      # - run: git submodule sync
       - run: pip install -r requirements.txt
       - run: mkdocs gh-deploy --force
