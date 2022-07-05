@@ -82,6 +82,7 @@ Node *create_new_tree(std::vector<Node *> nodes)
     return create_tree_from_core_nodes(nodes)[0];
 }
 ```
+![](global_sum.png)
 
 Após criar a árvore basta percorrer-lá recursivamente, lembrando que na prática
 **_compute_data_**, seria um _join_, ou um _await_, de uma thread.
@@ -109,4 +110,3 @@ int compute_node(Node &node)
     return result_data;
 }
 ```
-![](global_sum.png)

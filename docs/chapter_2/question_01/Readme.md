@@ -24,19 +24,18 @@ the second will compare exponents, and so on." (Página 26)
 
 O Author do livro considera que existe sete operações, considerando que duas delas são fetch e store custa 2 nanosegundos e o restante 1 nanosegundo.
 
-        1*5 +2*2 = 9 nanosegundos
+$$ 1 \times 5 + 2 \times 2 = 9 \text{ nanosegundos} $$ 
 
 
 ## 1.b
 
 Considerando que exitem 1000 pares de valores vão serem somados:
 
-        1000*9 = 9000 nanosegundos
+$$  1000 \times 9 = 9000 \text{ nanosegundos} $$
 
 ## 1.c
 
-foi pensado o seguinte: Nó memento que o dado passa pelo fetch, e vai para a próxima operação já
-é realizado o fetch da segunda operação. Executando o pipeline:
+foi pensado o seguinte: No momento que o dado passa pelo fetch, e vai para a próxima operação já é realizado o fetch da segunda operação. Executando o pipeline:
 
 
 | Tempo em nanosegundos | Fetch | OP1  | OP2  | OP3  | OP4  | OP5  | Store |
@@ -55,14 +54,14 @@ foi pensado o seguinte: Nó memento que o dado passa pelo fetch, e vai para a pr
 
 
 Percebe-se que a primeira instrução irá ser finalizada ou sumir na tabela quanto for 9 segundos
-ou seja,a primeira instrução dura 9 segundos, no entanto, no momento em que a primeira instrução
+ou seja,a primeira instrução dura 9 nanosegundos, no entanto, no momento em que a primeira instrução
 é finalizada,a segunda já começa a ser finalizada ou seja, demora apenas 2 nanosegundos até segunda operação ser finalizada e mais 2 nanosegundos para a terceira ser finalizada e assim por diante. Por tanto para executar todos os 1000 dados, o custo total fica:
         
-        9 + 999*2 = 2007
+$$ 9 + 999*2 = 2007 $$
 
 ## 1.d
 
-No caso, considerando que a cache nível não falhe a tabela continua mesma,
+No caso, considerando que a cache nível 1 não falhe a tabela continua mesma,
 pois o fetch e store custam o mesmo 2 nanosegundos: 
 
 | Tempo em nanosegundos | Fetch | OP1  | OP2  | OP3  | OP4  | OP5  | Store |

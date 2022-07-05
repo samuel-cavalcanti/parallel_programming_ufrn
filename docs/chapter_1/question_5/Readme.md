@@ -39,9 +39,10 @@ ou se o por exemplo o número de nós for 7, a última iteração do laço **_fo
 
 
 Para isso foram feitas as seguintes modificações:  
+ 
  - adicionado condicionamento para verificar se o tamanho é igual 3 
  - alterado o bitwise para apenas um comparador **_size ==2_**
- - verificado se o tamanho dos nós é par, caso nãos seja adicionado uma logica extra.
+ - verificado se o tamanho dos nós é par, caso não seja adicionado uma logica extra.
 
 ```c++
 std::vector<Node *> create_new_tree_bitwise(std::vector<Node *> nodes)
