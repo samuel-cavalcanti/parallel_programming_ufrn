@@ -50,3 +50,5 @@ mkdocs build
 ```
 
 o pdf gerado será encontrado no diretório **site/assets/pdf/**.
+
+A ultima versão do da lista em pdf também pode ser encontrado no link: https://samuel-cavalcanti.github.io/parallel_programming_ufrn/assets/pdf/document.pdf

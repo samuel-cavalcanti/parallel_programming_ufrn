@@ -8,6 +8,9 @@
 
 Capítulo 3 foram realizadas as questões: 2, 4, 6, 9, 11, 12, 13, 16, 17, 19
 
+
+A versão em pdf desse documento pode ser encontrada em  [samuel-cavalcanti.github.io/parallel_programming_ufrn/assets/pdf/document.pdf](https://samuel-cavalcanti.github.io/parallel_programming_ufrn/assets/pdf/document.pdf) 
+
 <!-- ## Questão 16
 Quando o compilador não é capaz de vetorizar automaticamente, ou vetoriza de forma ineficiente, o OpenMP provê a diretiva** omp simd**, com a qual o programador pode indicar um laço explicitamente para o compilador vetorizar. No código abaixo, a inclusão da cláusula reduction funciona de forma similar a flag **-ffast-math**, indicando que a redução na variável soma é segura e deve ser feita.
 ```c++
