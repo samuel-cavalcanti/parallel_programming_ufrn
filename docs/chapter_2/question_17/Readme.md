@@ -11,4 +11,4 @@ totalmente carregada na cache exclusiva do core, então quando
 se dividiu a matriz entre os cores a performance mais que dobra
 pois ela se soma com a vantagem da cache.
 
-vídeo da implementação https://www.youtube.com/watch?v=VgSQ1GOC86s.
+vídeo da implementação [https://www.youtube.com/watch?v=VgSQ1GOC86s](https://www.youtube.com/watch?v=VgSQ1GOC86s).
