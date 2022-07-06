@@ -16,6 +16,7 @@ source .env/bin/activate
 
 para instalar as dependências:
 ```shell
+git submodule update --init --recursive # ter clonado minha versão do with-pdf
 pip install -r requirements.txt
 ```
 
