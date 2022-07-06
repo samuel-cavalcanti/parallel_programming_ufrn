@@ -38,6 +38,14 @@ int main(int argc, char *argv[])
 
     int message_tag = 0;
 
+
+
+    /*
+        Decidir pegar os dados de entrada através
+        dos argumentos passados pelos programa
+        então preciso iniciar o init com argc
+        e argv 
+    */
     MPI_Init(&argc, &argv);
 
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
@@ -45,15 +53,20 @@ int main(int argc, char *argv[])
 
     input local_input = read_local_input(argc, argv, my_rank, comm_sz);
 
-    double local_dot_result = local_dot(local_input.v_1, local_input.v_2, local_input.vector_size);
+    double local_dot_result = local_dot(local_input.v_1, local_input.v_2,
+                                        local_input.vector_size);
 
-    double *local_scalar_v1 = local_scalar_multiply(local_input.v_1, local_input.vector_size, local_input.scalar);
-    double *local_scalar_v2 = local_scalar_multiply(local_input.v_2, local_input.vector_size, local_input.scalar);
+    double *local_scalar_v1 = local_scalar_multiply(local_input.v_1,
+                                                    local_input.vector_size, local_input.scalar);
+    double *local_scalar_v2 = local_scalar_multiply(local_input.v_2,
+                                                    local_input.vector_size, local_input.scalar);
 
     double dot_result = get_global_dot(&local_dot_result);
 
-    double *scalar_v1 = send_global_vector_to_root(local_scalar_v1, local_input.vector_size, local_input.vector_size * comm_sz, my_rank);
-    double *scalar_v2 = send_global_vector_to_root(local_scalar_v2, local_input.vector_size, local_input.vector_size * comm_sz, my_rank);
+    double *scalar_v1 = send_global_vector_to_root(local_scalar_v1, local_input.vector_size,
+                                                   local_input.vector_size * comm_sz, my_rank);
+    double *scalar_v2 = send_global_vector_to_root(local_scalar_v2, local_input.vector_size,
+                                                   local_input.vector_size * comm_sz, my_rank);
 
     if (my_rank == 0)
     {
@@ -92,7 +105,7 @@ double *local_scalar_multiply(double *v, int size, double scalar)
         result[i] = v[i] * scalar;
     }
 
-     return result;
+    return result;
 }
 
 double get_global_dot(double *local_dot)
@@ -122,6 +135,19 @@ input read_local_input(int argc, char *argv[], int my_rank, int comm_sz)
 
     if (my_rank == 0)
     {
+        /*
+            como pedido na questão o processo 0
+            deve enviar dados de entrada para
+            os outros processo então somente
+            no processo 0 será lido os argumentos
+            de entrada  que são:
+            argc == 5 (total de argumentos)
+            argv[0] == ./question_9 (argv[0] sempre é o nome do executável )
+            argv[1] == 5 (scalar)
+            argv[2] == "1,1,1,1" (vetor 1)
+            argv[3] ==  "2,2,2,2" (vetor 2)
+            argv[4] == 4 (tamanho dos vetores)
+        */
         total_input = read_input(argc, argv);
 
         printf("\t\tInput\n");
@@ -135,16 +161,32 @@ input read_local_input(int argc, char *argv[], int my_rank, int comm_sz)
         printf("Scalar: %lf\n", total_input.scalar);
     }
 
+    /*
+        com MPI_Bcast agora todos os processos tem o mesmo valor das variáveis
+        total_input.vector_size e total_input.scalar
+    */
     MPI_Bcast(&total_input.vector_size, 1, MPI_INT, 0, MPI_COMM_WORLD);
     MPI_Bcast(&total_input.scalar, 1, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
     range r = range_block_partition(my_rank, comm_sz, total_input.vector_size);
-
+    /*
+         eu uso a função que calcula os indices do vetor para
+         calcular o tamanho do vetor por uma questão de aprendizado
+         e verifica que dá o mesmo resultado.
+         Na prática o tamanho do vetor local é o (tamanho global)/(total de processos)
+         (tamanho global)/(total de processos) == total_input.vector_size/comm_sz
+    */
     local_input.vector_size = r.last - r.first;
     local_input.v_1 = malloc(local_input.vector_size * sizeof(double));
     local_input.v_2 = malloc(local_input.vector_size * sizeof(double));
     local_input.scalar = total_input.scalar;
-
+    
+    /*
+        MPI_Scatter divide o vetor total e envia cada parte para os processos
+        MPI_Scatter segue o block distribution ou seja, processo 0 fica com
+        os pedaço [0:a], processo 1 fica com o pedaço [a:2a]...
+        e assim por diante, sendo a = total_input.vector_size/comm_sz
+    */  
     MPI_Scatter(total_input.v_1, local_input.vector_size, MPI_DOUBLE, local_input.v_1, local_input.vector_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
     MPI_Scatter(total_input.v_2, local_input.vector_size, MPI_DOUBLE, local_input.v_2, local_input.vector_size, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 
