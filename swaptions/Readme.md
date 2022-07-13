@@ -3,9 +3,9 @@
 
 ## How to build
 
-dependências: 
+dependencies: 
 - pthreads
-- cmake
+- cmake VERSION 3.10
 
 
 ```bash

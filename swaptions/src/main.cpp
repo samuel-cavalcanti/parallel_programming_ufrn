@@ -130,8 +130,9 @@ void *worker(void *arg)
     swaptions[i].dSimSwaptionStdError = pdSwaptionPrice[1];
   }
 
+#ifdef ENABLE_PTHREADS
   counter.fetch_add(1);
-
+#endif
   return NULL;
 }
 
@@ -341,25 +342,24 @@ int main(int argc, char *argv[])
 
 #ifdef ENABLE_PTHREADS
   printf("Pthreads is enabled !!\n");
- 
-  int* threadIDs = new int[nThreads];
 
-  threadIDs[0] =0;
+  int *threadIDs = new int[nThreads];
 
+  threadIDs[0] = 0;
 
   for (i = 1; i < nThreads; i++)
   {
     threadIDs[i] = i;
     pthread_create(&threads[i], &pthread_custom_attr, worker, &threadIDs[i]);
   }
- 
+
   worker(&threadIDs[0]);
 
   while (counter.load() < nThreads)
   {
   } //   // waiting..
 
-  delete threadIDs;
+  delete[] threadIDs;
 
 #endif // ENABLE_PTHREADS
 
