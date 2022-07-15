@@ -65,7 +65,7 @@ int HJM_Swaption_Blocking(FTYPE *pdSwaptionPrice, // Output vector that will sto
 						  FTYPE **ppdFactors,
 						  // Simulation Parameters
 						  long iRndSeed,
-						  long lTrials, int blocksize, int tid);
+						  long lTrials, int blocksize);
 /*
 extern "C" FTYPE *dvector( long nl, long nh );
 extern "C" FTYPE **dmatrix( long nrl, long nrh, long ncl, long nch );

@@ -158,8 +158,8 @@ int HJM_SimPath_Forward_Blocking(FTYPE **ppdHJMPath,	//Matrix that stores genera
 	} // end Blocks
 	// -----------------------------------------------------
 
-	free_dmatrix(pdZ, 0, iFactors -1, 0, iN*BLOCKSIZE -1);
-	free_dmatrix(randZ, 0, iFactors -1, 0, iN*BLOCKSIZE -1);
+	free_dmatrix(pdZ,   0, 0);
+	free_dmatrix(randZ, 0, 0);
 	iSuccess = 1;
 	return iSuccess;
 }
