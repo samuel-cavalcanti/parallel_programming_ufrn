@@ -19,6 +19,7 @@
 #include <sstream>
 // #define ENABLE_PTHREADS
 // #define ENABLE_THREADS
+#include "command_line_app/command_line_app.hpp"
 
 #ifdef ENABLE_THREADS
 
@@ -31,6 +32,7 @@ std::atomic<int> counter = {0};
 #endif // ENABLE_PTHREADS
 
 #define MAX_THREAD 1024
+#define MIN_THREAD 1  
 
 #ifdef OPENMP_VERSION
 
@@ -56,13 +58,13 @@ tbb::cache_aligned_allocator<parm> memory_parm;
 int NUM_TRIALS = DEFAULT_NUM_TRIALS;
 int nThreads = 1;
 int nSwaptions = 1;
+long seed = 1979; // arbitrary (but constant) default value (birth year of Christian Bienia)
+
+long swaption_seed;
+parm *swaptions;
 int iN = 11;
 // FTYPE dYears = 5.5;
 int iFactors = 3;
-parm *swaptions;
-
-long seed = 1979; // arbitrary (but constant) default value (birth year of Christian Bienia)
-long swaption_seed;
 
 // =================================================
 FTYPE *dSumSimSwaptionPrice_global_ptr;
@@ -86,7 +88,7 @@ struct Worker
                                            swaptions[i].dTenor, swaptions[i].dPaymentInterval,
                                            swaptions[i].iN, swaptions[i].iFactors, swaptions[i].dYears,
                                            swaptions[i].pdYield, swaptions[i].ppdFactors,
-                                           swaption_seed + i, NUM_TRIALS, BLOCK_SIZE, 0);
+                                           swaption_seed + i, NUM_TRIALS, BLOCK_SIZE);
       assert(iSuccess == 1);
       swaptions[i].dSimSwaptionMeanPrice = pdSwaptionPrice[0];
       swaptions[i].dSimSwaptionStdError = pdSwaptioOPENMP_VERSIONnPrice[1];
@@ -139,17 +141,6 @@ void *worker(void *arg)
   return NULL;
 }
 
-// print a little help message explaining how to use this program
-void print_usage(char *name)
-{
-  fprintf(stderr, "Usage: %s OPTION [OPTIONS]...\n", name);
-  fprintf(stderr, "Options:\n");
-  fprintf(stderr, "\t-ns [number of swaptions (should be > number of threads]\n");
-  fprintf(stderr, "\t-sm [number of simulations]\n");
-  fprintf(stderr, "\t-nt [number of threads]\n");
-  fprintf(stderr, "\t-sd [random number seed]\n");
-}
-
 // Please note: Whenever we type-cast to (int), we add 0.5 to ensure that the value is rounded to the correct number.
 // For instance, if X/Y = 0.999 then (int) (X/Y) will equal 0 and not 1 (as (int) rounds down).
 // Adding 0.5 ensures that this does not happen. Therefore we use (int) (X/Y + 0.5); instead of (int) (X/Y);
@@ -171,45 +162,19 @@ int main(int argc, char *argv[])
 #ifdef ENABLE_PARSEC_HOOKS
   __parsec_bench_begin(__parsec_swaptions);
 #endif
-
-  if (argc == 1)
-  {
-    print_usage(argv[0]);
-    exit(1);
-  }
-
-  for (int j = 1; j < argc; j++)
-  {
-    if (!strcmp("-sm", argv[j]))
-    {
-      NUM_TRIALS = atoi(argv[++j]);
-    }
-    else if (!strcmp("-nt", argv[j]))
-    {
-      nThreads = atoi(argv[++j]);
-    }
-    else if (!strcmp("-ns", argv[j]))
-    {
-      nSwaptions = atoi(argv[++j]);
-    }
-    else if (!strcmp("-sd", argv[j]))
-    {
-      seed = atoi(argv[++j]);
-    }
-    else
-    {
-      fprintf(stderr, "Error: Unknown option: %s\n", argv[j]);
-      print_usage(argv[0]);
-      exit(1);
-    }
-  }
-
-  if (nSwaptions < nThreads)
-  {
-    fprintf(stderr, "Error: Fewer swaptions than threads.\n");
-    print_usage(argv[0]);
-    exit(1);
-  }
+ 
+  InputCommandLine default_input;
+  default_input.seed = 1979; // arbitrary (but constant) default value (birth year of Christian Bienia)
+  default_input.simulations = DEFAULT_NUM_TRIALS;
+  default_input.swaptions = 1;
+  default_input.threads = 1;
+ 
+  SwaptionsCommandLineApp swaptions_cmd(MAX_THREAD, MIN_THREAD, default_input);
+  InputCommandLine input = swaptions_cmd.get_parameters(argc, argv);
+  NUM_TRIALS = input.simulations;
+  nThreads = input.threads;
+  nSwaptions = input.swaptions;
+  seed = input.seed;
 
   printf("Number of Simulations: %d,  Number of threads: %d Number of swaptions: %d\n", NUM_TRIALS, nThreads, nSwaptions);
   swaption_seed = (long)(2147483647L * RanUnif(&seed));
@@ -222,11 +187,6 @@ int main(int argc, char *argv[])
   pthread_t *threads;
   pthread_attr_t pthread_custom_attr;
 
-  if ((nThreads < 1) || (nThreads > MAX_THREAD))
-  {
-    fprintf(stderr, "Number of threads must be between 1 and %d.\n", MAX_THREAD);
-    exit(1);
-  }
   threads = (pthread_t *)malloc(nThreads * sizeof(pthread_t));
   pthread_attr_init(&pthread_custom_attr);
 
@@ -248,15 +208,14 @@ int main(int argc, char *argv[])
 
   // FTYPE **factors = NULL;
   // initialize input dataset
-  // factors = dmatrix(0, iFactors - 1, 0, iN - 2);
   // the three rows store vol data for the three factors
 
   FTYPE factors[3][10] = {
       // 0         1        2        3        4        5        6        7        8        9
-      {.01,      .01,      .01,     .01,     .01,     .01,     .01,     .01,     .01,     .01},
+      {.01, .01, .01, .01, .01, .01, .01, .01, .01, .01},
       {.009048, .008187, .007408, .006703, .006065, .005488, .004966, .004493, .004066, .003679},
       {.001000, .000750, .000500, .000250, .000000, .000250, .000500, .000750, .001000, .001250},
-      };
+  };
 
   // setting up multiple swaptions
   swaptions =
@@ -266,7 +225,6 @@ int main(int argc, char *argv[])
       (parm *)malloc(sizeof(parm) * nSwaptions);
 #endif
 
-  int k;
   for (i = 0; i < nSwaptions; i++)
   {
     swaptions[i].Id = i;
@@ -287,7 +245,7 @@ int main(int argc, char *argv[])
       swaptions[i].pdYield[j] = swaptions[i].pdYield[j - 1] + .005;
 
     swaptions[i].ppdFactors = dmatrix(0, swaptions[i].iFactors - 1, 0, swaptions[i].iN - 2);
-    for (k = 0; k <= swaptions[i].iFactors - 1; ++k)
+    for (auto k = 0; k <= swaptions[i].iFactors - 1; k++)
       for (j = 0; j <= swaptions[i].iN - 2; ++j)
         swaptions[i].ppdFactors[k][j] = factors[k][j];
   }
@@ -349,30 +307,42 @@ int main(int argc, char *argv[])
   __parsec_roi_end();
 #endif
 
-  auto stream = std::ifstream("test.txt");
-  std::stringstream ss;
-  ss << stream.rdbuf();
-
-  stream.close();
-
-  std::string content = ss.str();
-
-  std::stringstream ss2;
-
-  const char template_line[] = "Swaption %d: [SwaptionPrice: %.10lf StdError: %.10lf] \n";
-
-  char line[56 + 10 + 10];
-
-  for (i = 0; i < nSwaptions; i++)
+  auto read_test_file = [](const char *fileName)
   {
+    auto stream = std::ifstream(fileName);
+    std::stringstream ss;
+    ss << stream.rdbuf();
+    return ss.str();
+  };
 
-    sprintf(line, template_line,
-            i, swaptions[i].dSimSwaptionMeanPrice, swaptions[i].dSimSwaptionStdError);
+  std::string test_file_content = read_test_file("test.txt");
 
-    ss2 << line;
-  }
+  auto string_swaptions = [](parm *swaptions)
+  {
+    const char template_line[] = "Swaption %d: [SwaptionPrice: %.10lf StdError: %.10lf] \n";
+    std::stringstream string_stream;
+    /*
+      template_line é um array com 56 elementos,
+      onde SwaptionPrice e StdError tem 10 digitos cada.
+    */
+    char line[56 + 10 + 10];
 
-  if (content == ss2.str())
+    for (auto i = 0; i < nSwaptions; i++)
+    {
+
+      sprintf(line, template_line,
+              i, swaptions[i].dSimSwaptionMeanPrice, swaptions[i].dSimSwaptionStdError);
+
+      string_stream << line;
+    }
+
+    return string_stream.str();
+  };
+
+  std::string simulation_output = string_swaptions(swaptions);
+
+  std::cout << simulation_output;
+  if (test_file_content == simulation_output)
   {
     std::cout << "passed" << std::endl;
   }
