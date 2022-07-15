@@ -7,13 +7,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <iostream>
 
 #include "nr_routines.h"
 #include "HJM.h"
 #include "HJM_Securities.h"
 #include "HJM_type.h"
 
+// C++
+#include <iostream>
+#include <fstream>
+#include <sstream>
 // #define ENABLE_PTHREADS
 // #define ENABLE_THREADS
 
@@ -124,7 +127,7 @@ void *worker(void *arg)
                                          swaptions[i].dTenor, swaptions[i].dPaymentInterval,
                                          swaptions[i].iN, swaptions[i].iFactors, swaptions[i].dYears,
                                          swaptions[i].pdYield, swaptions[i].ppdFactors,
-                                         swaption_seed + i, NUM_TRIALS, BLOCK_SIZE, 0);
+                                         swaption_seed + i, NUM_TRIALS, BLOCK_SIZE);
     assert(iSuccess == 1);
     swaptions[i].dSimSwaptionMeanPrice = pdSwaptionPrice[0];
     swaptions[i].dSimSwaptionStdError = pdSwaptionPrice[1];
@@ -155,8 +158,6 @@ int main(int argc, char *argv[])
 {
   int iSuccess = 0;
   int i, j;
-
-  FTYPE **factors = NULL;
 
 #ifdef PARSEC_VERSION
 #define __PARSEC_STRING(x) #x
@@ -245,41 +246,17 @@ int main(int argc, char *argv[])
   }
 #endif // ENABLE_THREADS
 
+  // FTYPE **factors = NULL;
   // initialize input dataset
-  factors = dmatrix(0, iFactors - 1, 0, iN - 2);
+  // factors = dmatrix(0, iFactors - 1, 0, iN - 2);
   // the three rows store vol data for the three factors
-  factors[0][0] = .01;
-  factors[0][1] = .01;
-  factors[0][2] = .01;
-  factors[0][3] = .01;
-  factors[0][4] = .01;
-  factors[0][5] = .01;
-  factors[0][6] = .01;
-  factors[0][7] = .01;
-  factors[0][8] = .01;
-  factors[0][9] = .01;
 
-  factors[1][0] = .009048;
-  factors[1][1] = .008187;
-  factors[1][2] = .007408;
-  factors[1][3] = .006703;
-  factors[1][4] = .006065;
-  factors[1][5] = .005488;
-  factors[1][6] = .004966;
-  factors[1][7] = .004493;
-  factors[1][8] = .004066;
-  factors[1][9] = .003679;
-
-  factors[2][0] = .001000;
-  factors[2][1] = .000750;
-  factors[2][2] = .000500;
-  factors[2][3] = .000250;
-  factors[2][4] = .000000;
-  factors[2][5] = -.000250;
-  factors[2][6] = -.000500;
-  factors[2][7] = -.000750;
-  factors[2][8] = -.001000;
-  factors[2][9] = -.001250;
+  FTYPE factors[3][10] = {
+      // 0         1        2        3        4        5        6        7        8        9
+      {.01,      .01,      .01,     .01,     .01,     .01,     .01,     .01,     .01,     .01},
+      {.009048, .008187, .007408, .006703, .006065, .005488, .004966, .004493, .004066, .003679},
+      {.001000, .000750, .000500, .000250, .000000, .000250, .000500, .000750, .001000, .001250},
+      };
 
   // setting up multiple swaptions
   swaptions =
@@ -372,16 +349,42 @@ int main(int argc, char *argv[])
   __parsec_roi_end();
 #endif
 
+  auto stream = std::ifstream("test.txt");
+  std::stringstream ss;
+  ss << stream.rdbuf();
+
+  stream.close();
+
+  std::string content = ss.str();
+
+  std::stringstream ss2;
+
+  const char template_line[] = "Swaption %d: [SwaptionPrice: %.10lf StdError: %.10lf] \n";
+
+  char line[56 + 10 + 10];
+
   for (i = 0; i < nSwaptions; i++)
   {
-    fprintf(stderr, "Swaption %d: [SwaptionPrice: %.10lf StdError: %.10lf] \n",
+
+    sprintf(line, template_line,
             i, swaptions[i].dSimSwaptionMeanPrice, swaptions[i].dSimSwaptionStdError);
+
+    ss2 << line;
+  }
+
+  if (content == ss2.str())
+  {
+    std::cout << "passed" << std::endl;
+  }
+  else
+  {
+    std::cout << "error" << std::endl;
   }
 
   for (i = 0; i < nSwaptions; i++)
   {
-    free_dvector(swaptions[i].pdYield, 0, swaptions[i].iN - 1);
-    free_dmatrix(swaptions[i].ppdFactors, 0, swaptions[i].iFactors - 1, 0, swaptions[i].iN - 2);
+    free_dvector(swaptions[i].pdYield, 0);
+    free_dmatrix(swaptions[i].ppdFactors, 0, 0);
   }
 
 #ifdef TBB_VERSION
