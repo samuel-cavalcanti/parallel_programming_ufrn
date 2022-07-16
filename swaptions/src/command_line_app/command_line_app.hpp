@@ -59,7 +59,7 @@ InputCommandLine SwaptionsCommandLineApp::get_parameters(int argc, char *argv[])
     }
     if ((input.threads < this->min_threads) || (input.threads > this->max_threads))
     {
-        fprintf(stderr, "Number of threads must be between 1 and %d.\n", this->max_threads);
+        fprintf(stderr, "Number of threads must be between %d and %d.\n", this->min_threads, this->max_threads);
         exit(1);
     }
 
