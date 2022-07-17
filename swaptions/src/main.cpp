@@ -20,10 +20,10 @@
 // #define ENABLE_PTHREADS
 // #define ENABLE_THREADS
 #include "command_line_app/command_line_app.hpp"
-#include "dataset/dataset.hpp"
+#include "dataset/dataset.h"
 #include "tests/tests.hpp"
-#include "managers/manager.h"
-
+#include "runners/runner.h"
+#include "runners/block_range/block_range.h"
 #define MIN_THREAD 1
 
 #ifdef ENABLE_THREADS
@@ -31,17 +31,8 @@
 #define MAX_THREAD 1024
 
 #ifdef ENABLE_PTHREADS
-#include <pthread.h>
-#include <atomic>
-#include "managers/pthread_manager.hpp"
-
-std::atomic<int> counter = {0};
 
 #endif // ENABLE_PTHREADS
-
-#ifdef OPENMP_VERSION
-#include "managers/openmp_manager.hpp"
-#endif // OPENMP_VERSION
 
 #ifdef TBB_VERSION
 #include "tbb/task_scheduler_init.h"
@@ -76,7 +67,7 @@ FTYPE *dSumSimSwaptionPrice_global_ptr;
 FTYPE *dSumSquareSimSwaptionPrice_global_ptr;
 int chunksize;
 
-void run_simulation(Range &r, parm *swaptions)
+void run_simulation(BlockRange &r, parm *swaptions)
 {
   FTYPE pdSwaptionPrice[2];
   for (int i = r.begin; i < r.end; i++)
@@ -110,16 +101,6 @@ struct Worker
 
 #endif // TBB_VERSION
 
-void *worker(void *arg)
-{
-  int tid = *((int *)arg);
-
-  Range r = find_blocked_range(tid, nSwaptions, nThreads);
-  run_simulation(r, swaptions);
-
-  return NULL;
-}
-
 // Please note: Whenever we type-cast to (int), we add 0.5 to ensure that the value is rounded to the correct number.
 // For instance, if X/Y = 0.999 then (int) (X/Y) will equal 0 and not 1 (as (int) rounds down).
 // Adding 0.5 ensures that this does not happen. Therefore we use (int) (X/Y + 0.5); instead of (int) (X/Y);
@@ -136,6 +117,7 @@ int main(int argc, char *argv[])
   printf("PARSEC Benchmark Suite\n");
   fflush(NULL);
 #endif // PARSEC_VERSION
+
 #ifdef ENABLE_PARSEC_HOOKS
   __parsec_bench_begin(__parsec_swaptions);
 #endif
@@ -167,8 +149,7 @@ int main(int argc, char *argv[])
 
 #endif // ENABLE_THREADS
 
-  Dataset dataset(seed);
-  dataset.generate(swaptions, nSwaptions);
+  createRandomDataset(swaptions, nSwaptions,seed);
 
   // **********Calling the Swaption Pricing Routine*****************
 #ifdef ENABLE_PARSEC_HOOKS
@@ -177,24 +158,13 @@ int main(int argc, char *argv[])
 
 #ifdef ENABLE_THREADS
 
-  Manager *manager;
-
-#ifdef OPENMP_VERSION
-  manager = new OpenmpManager(nThreads);
-
-#endif // OPENMP_VERSION
-
 #ifdef TBB_VERSION
   Worker w;
   tbb::parallel_for(tbb::blocked_range<int>(0, nSwaptions, TBB_GRAINSIZE), w);
-
 #endif // TBB_VERSION
 
-#ifdef ENABLE_PTHREADS
-  manager = new PthreadManager(nThreads);
-#endif // ENABLE_PTHREADS
-
-#else// single thread
+  runWorker(run_simulation, swaptions, nSwaptions, nThreads);
+#else  // single thread
   Range r{0, nSwaptions};
   run_simulation(r, swaptions);
 #endif // ENABLE_THREADS
@@ -203,7 +173,6 @@ int main(int argc, char *argv[])
   __parsec_roi_end();
 #endif
 
-  manager->runWorker(worker);
   Tests test;
   test.run(swaptions, nSwaptions);
 
