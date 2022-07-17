@@ -1,42 +1,8 @@
-#ifndef DATASET_HPP
-#define DATASET_HPP
 
-#include "../HJM_type.h"
+#include "dataset.h"
 #include "../nr_routines.h"
-class Dataset
-{
-private:
-    FTYPE factors[3][10] = {
-        // 0         1        2        3        4        5        6        7        8        9
-        {.01, .01, .01, .01, .01, .01, .01, .01, .01, .01},
-        {.009048, .008187, .007408, .006703, .006065, .005488, .004966, .004493, .004066, .003679},
-        {.001000, .000750, .000500, .000250, .000000, .000250, .000500, .000750, .001000, .001250},
-    };
-    int iN = 11;
-    // FTYPE dYears = 5.5;
-    int iFactors = 3;
-    long seed;
 
-    FTYPE RanUnif(long *s);
-
-public:
-    Dataset(long seed);
-
-    ~Dataset();
-
-    void generate(parm *swaptions, int &nSwaptions);
-};
-
-Dataset::Dataset(long seed)
-{
-    this->seed = seed;
-}
-
-Dataset::~Dataset()
-{
-}
-
-FTYPE Dataset::RanUnif(long *s)
+FTYPE RanUnif(long *s)
 {
     // RanUnif.c
     // Author: Mark Broadie
@@ -60,8 +26,18 @@ FTYPE Dataset::RanUnif(long *s)
 
 } // end of RanUnif
 
-void Dataset::generate(parm *swaptions, int &nSwaptions)
+void createRandomDataset(parm *swaptions, int &nSwaptions, long seed)
 {
+    FTYPE factors[3][10] = {
+        // 0         1        2        3        4        5        6        7        8        9
+        {.01, .01, .01, .01, .01, .01, .01, .01, .01, .01},
+        {.009048, .008187, .007408, .006703, .006065, .005488, .004966, .004493, .004066, .003679},
+        {.001000, .000750, .000500, .000250, .000000, .000250, .000500, .000750, .001000, .001250},
+    };
+    int iN = 11;
+
+    int iFactors = 3;
+
     for (int i = 0; i < nSwaptions; i++)
     {
         swaptions[i].Id = i;
@@ -87,5 +63,3 @@ void Dataset::generate(parm *swaptions, int &nSwaptions)
                 swaptions[i].ppdFactors[k][j] = factors[k][j];
     }
 }
-
-#endif // DATASET_HPP
