@@ -2,13 +2,18 @@
 
 
 mkdir -p build/
-rm -r build/*
+rm -build/*
 
 cd build
 cmake ".."
 make -j8
 cd ..
 
-./build/swaptions-pthreads -ns 16 -sm 10000 -nt 4;
+NTHREADS=4;
 
-./build/swaptions-openmp -ns 16 -sm 10000 -nt 4;   
+simmedium="-ns 32 -sm 20000 -nt ${NTHREADS}";
+simsmall="-ns 16 -sm 10000 -nt ${NTHREADS}";
+
+./build/swaptions-pthreads $simsmall;
+
+./build/swaptions-openmp $simsmall;   
