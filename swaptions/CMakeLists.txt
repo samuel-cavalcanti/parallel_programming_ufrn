@@ -38,7 +38,6 @@ add_executable(swaptions-openmp
 set(THREADS_PREFER_PTHREAD_FLAG ON)
 
 find_package(Threads REQUIRED)
-find_package(TBB REQUIRED)
 find_package(OpenMP REQUIRED)
 
 target_link_libraries(swaptions-openmp PRIVATE OpenMP::OpenMP_CXX)
