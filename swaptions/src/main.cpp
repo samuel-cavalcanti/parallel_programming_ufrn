@@ -17,6 +17,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+
 // #define ENABLE_PTHREADS
 // #define ENABLE_THREADS
 #include "command_line_app/command_line_app.hpp"
@@ -84,23 +85,6 @@ void run_simulation(BlockRange &r, parm *swaptions)
   }
 }
 
-#ifdef TBB_VERSION
-struct Worker
-{
-  Worker() {}
-  void operator()(const tbb::blocked_range<int> &range) const
-  {
-
-    int begin = range.begin();
-    int end = range.end();
-    Range r{range.begin(), range.end() + 1};
-
-    run_simulation(r, swaptions);
-  }
-};
-
-#endif // TBB_VERSION
-
 // Please note: Whenever we type-cast to (int), we add 0.5 to ensure that the value is rounded to the correct number.
 // For instance, if X/Y = 0.999 then (int) (X/Y) will equal 0 and not 1 (as (int) rounds down).
 // Adding 0.5 ensures that this does not happen. Therefore we use (int) (X/Y + 0.5); instead of (int) (X/Y);
@@ -138,18 +122,9 @@ int main(int argc, char *argv[])
   printf("Number of Simulations: %d,  Number of threads: %d Number of swaptions: %d\n", NUM_TRIALS, nThreads, nSwaptions);
   swaption_seed = (long)(2147483647L * RanUnif(&seed));
 
-#ifdef ENABLE_THREADS
-
-#ifdef TBB_VERSION
-  tbb::task_scheduler_init init(nThreads);
-  swaptions = (parm *)memory_parm.allocate(sizeof(parm) * nSwaptions, NULL);
-#endif // TBB_VERSION
-
   swaptions = (parm *)malloc(sizeof(parm) * nSwaptions);
 
-#endif // ENABLE_THREADS
-
-  createRandomDataset(swaptions, nSwaptions,seed);
+  createRandomDataset(swaptions, nSwaptions, seed);
 
   // **********Calling the Swaption Pricing Routine*****************
 #ifdef ENABLE_PARSEC_HOOKS
@@ -157,15 +132,9 @@ int main(int argc, char *argv[])
 #endif
 
 #ifdef ENABLE_THREADS
-
-#ifdef TBB_VERSION
-  Worker w;
-  tbb::parallel_for(tbb::blocked_range<int>(0, nSwaptions, TBB_GRAINSIZE), w);
-#endif // TBB_VERSION
-
   runWorker(run_simulation, swaptions, nSwaptions, nThreads);
 #else  // single thread
-  Range r{0, nSwaptions};
+  BlockRange r{0, nSwaptions};
   run_simulation(r, swaptions);
 #endif // ENABLE_THREADS
 
