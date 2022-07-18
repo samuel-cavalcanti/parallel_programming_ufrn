@@ -8,7 +8,6 @@
 
 #include "HJM_type.h"
 
-FTYPE CumNormalInv( FTYPE u );
 
 /**********************************************************************/
 static FTYPE a[4] = {
