@@ -55,36 +55,6 @@ tbb::cache_aligned_allocator<parm> memory_parm;
 #include <hooks.h>
 #endif
 
-int NUM_TRIALS = DEFAULT_NUM_TRIALS;
-int nThreads = 4;
-int nSwaptions = 1;
-long seed = 1979; // arbitrary (but constant) default value (birth year of Christian Bienia)
-
-long swaption_seed;
-parm *swaptions;
-
-// =================================================
-FTYPE *dSumSimSwaptionPrice_global_ptr;
-FTYPE *dSumSquareSimSwaptionPrice_global_ptr;
-int chunksize;
-
-void run_simulation(BlockRange &r, parm *swaptions)
-{
-  FTYPE pdSwaptionPrice[2];
-  for (int i = r.begin; i < r.end; i++)
-  {
-    int iSuccess = HJM_Swaption_Blocking(pdSwaptionPrice, swaptions[i].dStrike,
-                                         swaptions[i].dCompounding, swaptions[i].dMaturity,
-                                         swaptions[i].dTenor, swaptions[i].dPaymentInterval,
-                                         swaptions[i].iN, swaptions[i].iFactors, swaptions[i].dYears,
-                                         swaptions[i].pdYield, swaptions[i].ppdFactors,
-                                         swaption_seed + i, NUM_TRIALS, BLOCK_SIZE);
-    assert(iSuccess == 1);
-    swaptions[i].dSimSwaptionMeanPrice = pdSwaptionPrice[0];
-    swaptions[i].dSimSwaptionStdError = pdSwaptionPrice[1];
-  }
-}
-
 // Please note: Whenever we type-cast to (int), we add 0.5 to ensure that the value is rounded to the correct number.
 // For instance, if X/Y = 0.999 then (int) (X/Y) will equal 0 and not 1 (as (int) rounds down).
 // Adding 0.5 ensures that this does not happen. Therefore we use (int) (X/Y + 0.5); instead of (int) (X/Y);
@@ -114,15 +84,17 @@ int main(int argc, char *argv[])
 
   SwaptionsCommandLineApp swaptions_cmd(MAX_THREAD, MIN_THREAD, default_input);
   InputCommandLine input = swaptions_cmd.get_parameters(argc, argv);
-  NUM_TRIALS = input.simulations;
-  nThreads = input.threads;
-  nSwaptions = input.swaptions;
-  seed = input.seed;
+
+  
+  auto NUM_TRIALS = input.simulations;
+  auto nThreads = input.threads;
+  auto nSwaptions = input.swaptions;
+  auto seed = input.seed;
 
   printf("Number of Simulations: %d,  Number of threads: %d Number of swaptions: %d\n", NUM_TRIALS, nThreads, nSwaptions);
-  swaption_seed = (long)(2147483647L * RanUnif(&seed));
+  auto swaption_seed = (long)(2147483647L * RanUnif(&seed));
 
-  swaptions = (parm *)malloc(sizeof(parm) * nSwaptions);
+  auto swaptions = new parm[nSwaptions]; /// (parm *)malloc(sizeof(parm) * nSwaptions);
 
   createRandomDataset(swaptions, nSwaptions, seed);
 
@@ -130,6 +102,23 @@ int main(int argc, char *argv[])
 #ifdef ENABLE_PARSEC_HOOKS
   __parsec_roi_begin();
 #endif
+
+  auto run_simulation = [swaption_seed, NUM_TRIALS](BlockRange &r, parm *swaptions)
+  {
+    FTYPE pdSwaptionPrice[2];
+    for (int i = r.begin; i < r.end; i++)
+    {
+      int iSuccess = HJM_Swaption_Blocking(pdSwaptionPrice, swaptions[i].dStrike,
+                                           swaptions[i].dCompounding, swaptions[i].dMaturity,
+                                           swaptions[i].dTenor, swaptions[i].dPaymentInterval,
+                                           swaptions[i].iN, swaptions[i].iFactors, swaptions[i].dYears,
+                                           swaptions[i].pdYield, swaptions[i].ppdFactors,
+                                           swaption_seed + i, NUM_TRIALS, BLOCK_SIZE);
+      assert(iSuccess == 1);
+      swaptions[i].dSimSwaptionMeanPrice = pdSwaptionPrice[0];
+      swaptions[i].dSimSwaptionStdError = pdSwaptionPrice[1];
+    }
+  };
 
 #ifdef ENABLE_THREADS
   runWorker(run_simulation, swaptions, nSwaptions, nThreads);
@@ -151,11 +140,7 @@ int main(int argc, char *argv[])
     free_dmatrix(swaptions[i].ppdFactors, 0, 0);
   }
 
-#ifdef TBB_VERSION
-  memory_parm.deallocate(swaptions, sizeof(parm));
-#else
-  free(swaptions);
-#endif // TBB_VERSION
+  delete[] swaptions;
 
   //***********************************************************
 
