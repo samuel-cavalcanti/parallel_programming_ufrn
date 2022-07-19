@@ -4,7 +4,7 @@
 typedef struct InputCommandLine
 {
     int swaptions;
-    int simulations;
+    int simulation_trials;
     int threads;
     long seed;
 
@@ -74,7 +74,7 @@ InputCommandLine SwaptionsCommandLineApp::parse()
     {
         if (!strcmp("-sm", this->argv[j]))
         {
-            input.simulations = atoi(this->argv[++j]);
+            input.simulation_trials = atoi(this->argv[++j]);
         }
         else if (!strcmp("-nt", this->argv[j]))
         {
@@ -104,7 +104,7 @@ void SwaptionsCommandLineApp::print_usage()
     fprintf(stderr, "Usage: %s OPTION [OPTIONS]...\n", this->argv[0]);
     fprintf(stderr, "Options:\n");
     fprintf(stderr, "\t-ns [number of swaptions (should be > number of threads]\n");
-    fprintf(stderr, "\t-sm [number of simulations]\n");
+    fprintf(stderr, "\t-sm [number of simulation trails]\n");
     fprintf(stderr, "\t-nt [number of threads]\n");
     fprintf(stderr, "\t-sd [random number seed]\n");
 }
