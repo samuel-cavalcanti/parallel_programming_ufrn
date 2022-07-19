@@ -12,12 +12,11 @@
 void runWorker(std::function<void(BlockRange &, parm *)> runSimulation, parm *input, int input_size, int nThreads)
 {
 
-    printf("OpenMP is enabled !!\n");
 
 #pragma omp parallel for num_threads(nThreads)
     for (int i = 0; i < nThreads; i++)
     {
-        printf("Call worked on thread id: %i\n", i);
+
         BlockRange range = find_blocked_range(i, input_size, nThreads);
 
         runSimulation(range, input);
