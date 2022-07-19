@@ -22,7 +22,7 @@
 // #define ENABLE_THREADS
 #include "command_line_app/command_line_app.hpp"
 #include "dataset/dataset.h"
-#include "tests/tests.hpp"
+
 #include "runners/runner.h"
 #include "runners/block_range/block_range.h"
 #define MIN_THREAD 1
@@ -85,7 +85,7 @@ int main(int argc, char *argv[])
   SwaptionsCommandLineApp swaptions_cmd(MAX_THREAD, MIN_THREAD, default_input);
   InputCommandLine input = swaptions_cmd.get_parameters(argc, argv);
 
-  
+
   auto NUM_TRIALS = input.simulations;
   auto nThreads = input.threads;
   auto nSwaptions = input.swaptions;
@@ -131,8 +131,13 @@ int main(int argc, char *argv[])
   __parsec_roi_end();
 #endif
 
-  Tests test;
-  test.run(swaptions, nSwaptions);
+   for (auto i = 0; i < nSwaptions; i++)
+  {
+    fprintf(stderr, "Swaption %d: [SwaptionPrice: %.10lf StdError: %.10lf] \n",
+            i, swaptions[i].dSimSwaptionMeanPrice, swaptions[i].dSimSwaptionStdError);
+  }
+  // Tests test;
+  // test.run(swaptions, nSwaptions);
 
   for (int i = 0; i < nSwaptions; i++)
   {
