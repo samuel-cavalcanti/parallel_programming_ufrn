@@ -28,7 +28,7 @@ std::string Tests::swaptions_to_string(parm *swaptions, int nSwaptions)
       template_line é um array com 56 elementos,
       onde SwaptionPrice e StdError tem 10 digitos cada.
     */
-    char line[56 + 10 + 10];
+    char line[56 + 10 + 10 +3];
 
     for (auto i = 0; i < nSwaptions; i++)
     {
