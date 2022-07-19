@@ -52,12 +52,12 @@ target_compile_definitions(swaptions-openmp PUBLIC ENABLE_THREADS=1 OPENMP_VERSI
 set_target_properties(swaptions-openmp PROPERTIES COMPILE_FLAGS -fopenmp)
 
 #para degugs de variáveis 
-macro(print_all_variables)
-   message(STATUS "print_all_variables------------------------------------------{")
-   foreach (file ${HEADERS})
-       message(STATUS "soruce: ${file}\n")
-   endforeach()
-   message(STATUS "print_all_variables------------------------------------------}")
-endmacro()
+# macro(print_all_variables)
+#    message(STATUS "print_all_variables------------------------------------------{")
+#    foreach (file ${HEADERS})
+#        message(STATUS "soruce: ${file}\n")
+#    endforeach()
+#    message(STATUS "print_all_variables------------------------------------------}")
+# endmacro()
 
-print_all_variables()
+# print_all_variables()
