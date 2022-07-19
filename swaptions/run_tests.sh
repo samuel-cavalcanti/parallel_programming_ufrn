@@ -2,7 +2,7 @@
 
 
 mkdir -p build/
-rm -build/*
+rm -rf build/*
 
 cd build
 cmake ".."
