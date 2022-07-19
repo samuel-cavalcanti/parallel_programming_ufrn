@@ -36,10 +36,7 @@ native="-ns 128 -sm 1000000 -nt ${NTHREADS}"
 # -nt == nThreads  número de Threads
 
 # tenho 8 threads, portanto
-MY_CORES=8;# colocar 32 caso usando o super computador
-
-
+MY_CORES=32;# colocar 32 caso usando o super computador
 
 pascalanalyzer -c 1:$MY_CORES --ipts "$simsmall,$simmedium,$simlarge,$native" "./build/swaptions-pthreads" -o "swaptions-pthreads-custom.json"
 pascalanalyzer -c 1:$MY_CORES --ipts "$simsmall,$simmedium,$simlarge,$native" "./build/swaptions-openmp" -o "swaptions-openmp-custom.json"
-
