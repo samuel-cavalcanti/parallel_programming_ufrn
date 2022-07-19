@@ -1,4 +1,3 @@
-
 #ifdef ENABLE_PTHREADS
 #include "find_z_values.h"
 #include "../HJM.h"
@@ -13,7 +12,6 @@
 //     FTYPE **randZ;
 //     int BLOCKSIZE;
 //     int iN;
-//     int l;
 //     BlockRange r;
 // } WorkerFindZParam;
 
@@ -25,13 +23,15 @@
 //     auto r = worker_arg.r;
 //     auto iN = worker_arg.iN;
 //     auto BLOCKSIZE = worker_arg.BLOCKSIZE;
-//     auto l = worker_arg.l;
 //     auto pdZ = worker_arg.pdZ;
 //     auto randZ = worker_arg.randZ;
 
-//     for (int b = r.begin; b < r.end; b++)
+//     for (int i = r.begin; i < r.end; i++)
 //     {
-//         for (int j = 1; j < iN; j++)
+//         auto l = i / BLOCKSIZE;
+//         auto b = i % BLOCK_SIZE;
+
+//         for (int j = 1; j < iN; ++j)
 //         {
 //             pdZ[l][BLOCKSIZE * j + b] = CumNormalInv(randZ[l][BLOCKSIZE * j + b]); /* 18% of the total executition time */
 //         }
@@ -43,68 +43,32 @@
 // void find_z_values(FTYPE **pdZ, FTYPE **randZ, int BLOCKSIZE, int iN, int iFactors)
 // {
 
-//     auto number_threads = 8;
+//     auto number_threads = 3;
 
 //     auto threads = new pthread_t[number_threads];
 
 //     pthread_attr_t pthread_custom_attr;
-//     pthread_attr_init(&pthread_custom_attr);
+//     pthread_attr_init(&pthread_custom_attr); //
 
-//     for (int l = 0; l < iFactors; l++)
+//     auto input_size = iFactors * BLOCKSIZE;
+
+//     for (auto thread_index = 0; thread_index < number_threads; thread_index++)
 //     {
+//         auto range = find_blocked_range(thread_index, input_size, number_threads);
 
-//         for (auto thread_index = 0; thread_index < number_threads; thread_index++)
-//         {
-//             auto range = find_blocked_range(thread_index, BLOCKSIZE, number_threads);
-//             auto workerParams = new WorkerFindZParam{
-//                 pdZ,
-//                 randZ,
-//                 BLOCKSIZE,
-//                 iN,
-//                 l,
-//                 range,
-//             };
-
-//             pthread_create(&threads[thread_index], &pthread_custom_attr, worker_find_z, workerParams);
-//         }
-//         for (auto thread_index = 0; thread_index < number_threads; thread_index++)
-//         {
-//             pthread_join(threads[thread_index], NULL);
-//         }
+//         auto workerParams = new WorkerFindZParam{
+//             pdZ,
+//             randZ,
+//             BLOCKSIZE,
+//             iN,
+//             range,
+//         };
+//         pthread_create(&threads[thread_index], &pthread_custom_attr, worker_find_z, workerParams);
 //     }
-// }
 
-// void find_z_values(FTYPE **pdZ, FTYPE **randZ, int BLOCKSIZE, int iN, int iFactors)
-// {
-
-//     auto number_threads = 8;
-
-//     auto threads = new pthread_t[number_threads];
-
-//     pthread_attr_t pthread_custom_attr;
-//     pthread_attr_init(&pthread_custom_attr);
-
-//     for (int l = 0; l < iFactors; l++)
+//        for (auto thread_index = 0; thread_index < number_threads; thread_index++)
 //     {
-
-//         for (auto thread_index = 0; thread_index < number_threads; thread_index++)
-//         {
-//             auto range = find_blocked_range(thread_index, BLOCKSIZE, number_threads);
-//             auto workerParams = new WorkerFindZParam{
-//                 pdZ,
-//                 randZ,
-//                 BLOCKSIZE,
-//                 iN,
-//                 l,
-//                 range,
-//             };
-
-//             pthread_create(&threads[thread_index], &pthread_custom_attr, worker_find_z, workerParams);
-//         }
-//         for (auto thread_index = 0; thread_index < number_threads; thread_index++)
-//         {
-//             pthread_join(threads[thread_index], NULL);
-//         }
+//         pthread_join(threads[thread_index], NULL);
 //     }
 // }
 
@@ -112,11 +76,11 @@
 void find_z_values(FTYPE **pdZ, FTYPE **randZ, int BLOCKSIZE, int iN, int iFactors)
 {
 
-    for (int l = 0; l < iFactors ; ++l)
+    for (int l = 0; l < iFactors; ++l)
     {
         for (int b = 0; b < BLOCKSIZE; b++)
         {
-            for (int j = 1; j < iN ; ++j)
+            for (int j = 1; j < iN; ++j)
             {
                 pdZ[l][BLOCKSIZE * j + b] = CumNormalInv(randZ[l][BLOCKSIZE * j + b]); /* 18% of the total executition time */
             }
