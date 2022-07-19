@@ -17,11 +17,11 @@ void runWorker(std::function<void(BlockRange &, parm *)> runSimulation, parm *in
 #pragma omp parallel for num_threads(nThreads)
     for (int i = 0; i < nThreads; i++)
     {
-        int thread_id = omp_get_thread_num();
-        BlockRange range = find_blocked_range(thread_id, input_size, nThreads);
+        printf("Call worked on thread id: %i\n", i);
+        BlockRange range = find_blocked_range(i, input_size, nThreads);
 
         runSimulation(range, input);
-        printf("Call worked on thread id: %i\n", thread_id);
+       
     }
 }
 
