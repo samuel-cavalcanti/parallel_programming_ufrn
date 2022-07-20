@@ -27,7 +27,7 @@ void find_z_values(FTYPE **pdZ, FTYPE **randZ, int BLOCKSIZE, int iN, int iFacto
 
     auto input_size = BLOCKSIZE * iFactors;
 
-#pragma omp parallel for num_threads(4)
+#pragma omp parallel for 
     for (int i = 0; i < input_size; i++)
     {
         auto l = i / BLOCKSIZE;

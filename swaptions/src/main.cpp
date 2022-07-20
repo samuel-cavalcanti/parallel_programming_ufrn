@@ -16,6 +16,7 @@
 #include <sstream>
 
 #include "command_line_app/command_line_app.hpp"
+// #include "tests/tests.hpp"
 
 #include "dataset/dataset.h"
 
@@ -103,6 +104,9 @@ int main(int argc, char *argv[])
 #ifdef ENABLE_PARSEC_HOOKS
   __parsec_roi_end();
 #endif
+
+  // Tests test;
+  // test.run(swaptions,nSwaptions);
 
   for (auto i = 0; i < nSwaptions; i++)
   {
