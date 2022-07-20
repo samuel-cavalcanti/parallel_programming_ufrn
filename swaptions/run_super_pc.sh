@@ -17,20 +17,20 @@ NTHREADS="__nt__"
 # para os cores.
 
 # simsmall
-simsmall="-ns 32 -sm 10000 -nt ${NTHREADS}"
+simsmall="-ns 16 -sm 10000 -nt ${NTHREADS}"
 
 # simmedium
-simmedium="-ns 64 -sm 20000 -nt ${NTHREADS}"
+simmedium="-ns 32 -sm 20000 -nt ${NTHREADS}"
 
 #simlarge
-simlarge="-ns 96 -sm 40000 -nt ${NTHREADS}"
+simlarge="-ns 64 -sm 40000 -nt ${NTHREADS}"
 
 #native
 native="-ns 128 -sm 1000000 -nt ${NTHREADS}"
 
 
 # -ns == nSwaptions número de simulações
-# -sm == NUM_TRIALS"""CoppeliaSim's Remote API client."""
+# -sm == NUM_TRIALS
 
 #número de tentativas por simulaçãoimage.png
 # -nt == nThreads  número de Threads
