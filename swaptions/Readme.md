@@ -1,5 +1,7 @@
 # Swaptions
 
+Refatoração no código do swaptions, mas apenas as versões **Pthreads** e **OpenMP** são suportadas
+
 
 ## How to build
 
