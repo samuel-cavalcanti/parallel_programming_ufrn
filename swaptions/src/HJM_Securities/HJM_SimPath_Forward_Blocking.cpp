@@ -1,9 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "HJM_type.h"
-#include "HJM.h"
-#include "nr_routines.h"
+#include "HJM_Securities.h"
+#include "nr_routines/nr_routines.h"
 #include "find_z_values/find_z_values.h"
 
 

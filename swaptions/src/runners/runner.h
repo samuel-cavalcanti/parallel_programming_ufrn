@@ -3,7 +3,7 @@
 #ifndef RUNNER_H
 #define RUNNER_H
 
-#include "../HJM_type.h"
+#include "../HJM/HJM_type.h"
 #include <functional>
 #include "block_range/block_range.h"
 

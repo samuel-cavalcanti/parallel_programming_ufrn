@@ -1,4 +1,4 @@
-#ifndef HJM_TYPE_H 
+#ifndef HJM_TYPE_H
 #define HJM_TYPE_H
 //#define DEBUG
 
@@ -9,8 +9,11 @@
 #define FTYPE double
 #define BLOCK_SIZE 16 // Blocking to allow better caching
 
-#define RANDSEEDVAL 100
-#define DEFAULT_NUM_TRIALS  102400
+
+#define DEFAULT_NUM_TRIALS 102400
+
+// arbitrary (but constant) default value (birth year of Christian Bienia)
+#define DEFAULT_SEED 1979 
 
 typedef struct
 {
@@ -28,7 +31,5 @@ typedef struct
   FTYPE *pdYield;
   FTYPE **ppdFactors;
 } parm;
- 
 
-
-#endif //HJM_TYPE_H
+#endif // HJM_TYPE_H

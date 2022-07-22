@@ -3,8 +3,8 @@
 #ifdef OPENMP_VERSION
 
 #include "find_z_values.h"
-#include "../HJM.h"
-#include "runners/block_range/block_range.h"
+#include "HJM/HJM.h"
+#include "block_range/block_range.h"
 #include <omp.h>
 #include <iostream>
 #include <atomic>

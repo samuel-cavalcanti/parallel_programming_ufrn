@@ -9,21 +9,9 @@
 #include <math.h>
 #include <time.h>
 
-#include "nr_routines.h"
-#include "HJM.h"
-#include "HJM_type.h"
+#include "nr_routines/nr_routines.h"
+#include "HJM_Securities.h"
 
-int HJM_SimPath_Yield(FTYPE **ppdHJMPath, int iN, int iFactors, FTYPE dYears, FTYPE *pdYield, FTYPE **ppdFactors,
-					  long *lRndSeed);
-int HJM_SimPath_Forward(FTYPE **ppdHJMPath, int iN, int iFactors, FTYPE dYears, FTYPE *pdForward, FTYPE *pdTotalDrift,
-						FTYPE **ppdFactors, long *lRndSeed);
-int HJM_Yield_to_Forward(FTYPE *pdForward, int iN, FTYPE *pdYield);
-int HJM_Factors(FTYPE **ppdFactors, int iN, int iFactors, FTYPE *pdVol, FTYPE **ppdFacBreak);
-int HJM_Drifts(FTYPE *pdTotalDrift, FTYPE **ppdDrifts, int iN, int iFactors, FTYPE dYears, FTYPE **ppdFactors);
-int HJM_Correlations(FTYPE **ppdHJMCorr, int iN, int iFactors, FTYPE **ppdFactors);
-int HJM_Forward_to_Yield(FTYPE *pdYield, int iN, FTYPE *pdForward);
-int Discount_Factors(FTYPE *pdDiscountFactors, int iN, FTYPE dYears, FTYPE *pdRatePath);
-// int Discount_Factors_early_exit(FTYPE *pdDiscountFactors, int iN, FTYPE dYears, FTYPE *pdRatePath, int iSwapStartTimeIndex);
 
 int HJM_SimPath_Yield(FTYPE **ppdHJMPath, // Matrix that stores generated HJM path (Output)
 					  int iN,			  // Number of time-steps
@@ -321,89 +309,10 @@ int Discount_Factors(FTYPE *pdDiscountFactors,
 	return iSuccess;
 }
 
-int Discount_Factors_opt(FTYPE *pdDiscountFactors,
-						 int iN,
-						 FTYPE dYears,
-						 FTYPE *pdRatePath)
+
+
+
+FTYPE dMax( FTYPE dA, FTYPE dB )
 {
-	int i, j;	  // looping variables
-	int iSuccess; // return variable
-
-	FTYPE ddelt; // HJM time-step length
-	ddelt = (FTYPE)(dYears / iN);
-
-	FTYPE *pdexpRes;
-	pdexpRes = dvector(0, iN - 2);
-
-	// initializing the discount factor vector
-	for (i = 0; i <= iN - 1; ++i)
-		pdDiscountFactors[i] = 1.0;
-
-	// precompute the exponientials
-	for (j = 0; j <= (i - 2); ++j)
-	{
-		pdexpRes[j] = -pdRatePath[j] * ddelt;
-	}
-	for (j = 0; j <= (i - 2); ++j)
-	{
-		pdexpRes[j] = exp(pdexpRes[j]);
-	}
-
-	for (i = 1; i <= iN - 1; ++i)
-		for (j = 0; j <= i - 1; ++j)
-			pdDiscountFactors[i] *= pdexpRes[j];
-
-	free_dvector(pdexpRes, 0);
-	iSuccess = 1;
-	return iSuccess;
-}
-
-// ***********************************************************************
-// ***********************************************************************
-// ***********************************************************************
-int Discount_Factors_Blocking(FTYPE *pdDiscountFactors,
-							  int iN,
-							  FTYPE dYears,
-							  FTYPE *pdRatePath,
-							  int BLOCKSIZE)
-{
-	int i, j, b;  // looping variables
-	int iSuccess; // return variable
-
-	FTYPE ddelt; // HJM time-step length
-	ddelt = (FTYPE)(dYears / iN);
-
-	FTYPE *pdexpRes;
-	pdexpRes = dvector(0, (iN - 1) * BLOCKSIZE - 1);
-	// precompute the exponientials
-	for (j = 0; j <= (iN - 1) * BLOCKSIZE - 1; ++j)
-	{
-		pdexpRes[j] = -pdRatePath[j] * ddelt;
-	}
-	for (j = 0; j <= (iN - 1) * BLOCKSIZE - 1; ++j)
-	{
-		pdexpRes[j] = exp(pdexpRes[j]);
-	}
-
-	// initializing the discount factor vector
-	for (i = 0; i < (iN)*BLOCKSIZE; ++i)
-		pdDiscountFactors[i] = 1.0;
-
-	for (i = 1; i <= iN - 1; ++i)
-	{
-		// printf("\nVisiting timestep %d : ",i);
-		for (b = 0; b < BLOCKSIZE; b++)
-		{
-			// printf("\n");
-			for (j = 0; j <= i - 1; ++j)
-			{
-				pdDiscountFactors[i * BLOCKSIZE + b] *= pdexpRes[j * BLOCKSIZE + b];
-				// printf("(%f) ",pdexpRes[j*BLOCKSIZE + b]);
-			}
-		} // end Block loop
-	}
-
-	free_dvector(pdexpRes, 0);
-	iSuccess = 1;
-	return iSuccess;
-}
+  return (dA>dB ? dA:dB);
+} // end of dMax

@@ -1,7 +1,7 @@
 #ifndef ENABLE_THREADS
 
 #include "find_z_values.h"
-#include "../HJM.h"
+#include "HJM/HJM.h"
 
 void find_z_values(FTYPE **pdZ, FTYPE **randZ, int BLOCKSIZE, int iN, int iFactors)
 {

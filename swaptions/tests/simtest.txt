@@ -1,0 +1,1 @@
+Swaption 0: [SwaptionPrice: 22.0700566558 StdError: -nan] 

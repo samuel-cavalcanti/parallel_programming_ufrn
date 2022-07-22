@@ -1,7 +1,7 @@
 #ifndef NR_ROUTINES_H
 #define NR_ROUTINES_H
 
-#include "HJM_type.h"
+#include "HJM/HJM_type.h"
 
 void nrerror(const char *error_text);
 int choldc(FTYPE **a, int n);
