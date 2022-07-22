@@ -6,6 +6,8 @@ project(swaptions-pthreads C CXX)
 
 project(swaptions-openmp C CXX)
 
+project(swaptions-test C CXX)
+
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -O3")
 
 include_directories("src")
@@ -33,6 +35,15 @@ add_executable(swaptions-openmp
                         ${SOURCE_CPP}
                         ${SOURCE_C})
 
+add_executable(swaptions-pthreads-test 
+                        ${HEADERS}
+                        ${SOURCE_CPP}
+                        ${SOURCE_C})
+
+add_executable(swaptions-openmp-test 
+                        ${HEADERS}
+                        ${SOURCE_CPP}
+                        ${SOURCE_C})
 
 #adding pthreads
 set(THREADS_PREFER_PTHREAD_FLAG ON)
@@ -41,15 +52,33 @@ find_package(Threads REQUIRED)
 find_package(OpenMP REQUIRED)
 
 target_link_libraries(swaptions-openmp PRIVATE OpenMP::OpenMP_CXX)
+target_link_libraries(swaptions-openmp-test PRIVATE OpenMP::OpenMP_CXX)
+target_link_libraries(swaptions-openmp-test PRIVATE OpenMP::OpenMP_C)
+
 
 target_link_libraries(swaptions-pthreads PRIVATE Threads::Threads)
 
+target_link_libraries(swaptions-pthreads-test PRIVATE Threads::Threads)
+
+
+
+
 
 target_compile_definitions(swaptions-pthreads PUBLIC ENABLE_THREADS=1 ENABLE_PTHREADS=1)
+target_compile_definitions(swaptions-pthreads-test PUBLIC ENABLE_THREADS=1 ENABLE_PTHREADS=1)
+
+
 target_compile_definitions(swaptions-openmp PUBLIC ENABLE_THREADS=1 OPENMP_VERSION=1)
+target_compile_definitions(swaptions-openmp-test PUBLIC ENABLE_THREADS=1 OPENMP_VERSION=1)
+
 
 
 set_target_properties(swaptions-openmp PROPERTIES COMPILE_FLAGS -fopenmp)
+
+target_compile_definitions(swaptions-openmp-test PUBLIC TESTS=1)
+target_compile_definitions(swaptions-pthreads-test PUBLIC TESTS=1)
+
+# set_target_properties(swaptions-openmp-test PROPERTIES COMPILE_FLAGS -fopenmp)
 
 #para degugs de variáveis 
 # macro(print_all_variables)
