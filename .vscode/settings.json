@@ -84,5 +84,6 @@
     },
     "cSpell.words": [
         "Swaptions"
-    ]
+    ],
+    "cmake.configureOnOpen": false
 }
