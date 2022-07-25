@@ -9,7 +9,7 @@ cmake ".."
 make -j8
 cd ..
 
-echo "running Pthreads tests"
+echo "      running Pthreads tests"
 ./build/swaptions-pthreads-test $simsmall;
-echo "running OpenMP tests"
+echo "      running OpenMP tests"
 ./build/swaptions-openmp-test $simsmall;   

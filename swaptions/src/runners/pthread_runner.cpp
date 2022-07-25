@@ -1,4 +1,4 @@
-#ifdef ENABLE_PTHREADS
+#ifdef PTHREADS_VERSION
 
 #ifndef PTHREAD_RUNNER_CPP
 #define PTHREAD_RUNNER_CPP
@@ -59,4 +59,4 @@ void runWorker(std::function<void(BlockRange &, parm *)> runSimulation, parm *in
 
 #endif // PTHREAD_RUNNER_CPP
 
-#endif // ENABLE_PTHREADS
+#endif // PTHREADS_VERSION

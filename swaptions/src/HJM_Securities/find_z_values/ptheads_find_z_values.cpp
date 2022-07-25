@@ -1,6 +1,4 @@
-// #define ENABLE_PTHREADS
-
-#ifdef ENABLE_PTHREADS
+#ifdef PTHREADS_VERSION
 #include "find_z_values.h"
 #include "HJM/HJM.h"
 // // Foi tentado paralelizar o calculo do pdf, porem sem sucesso.
@@ -93,4 +91,4 @@ void find_z_values(FTYPE **pdZ, FTYPE **randZ, int BLOCKSIZE, int iN, int iFacto
     }
 }
 
-#endif // ENABLE_PTHREADS
+#endif // PTHREADS_VERSION
