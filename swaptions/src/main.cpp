@@ -14,8 +14,6 @@
 #endif // ENABLE_PARSEC_HOOKS
 
 
-#ifndef TESTS
-
 int main(int argc, char *argv[])
 {
 
@@ -78,5 +76,3 @@ int main(int argc, char *argv[])
 
   return 0;
 }
-
-#endif //TESTS

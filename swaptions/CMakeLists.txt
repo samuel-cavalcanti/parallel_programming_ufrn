@@ -22,15 +22,14 @@ file(GLOB_RECURSE SOURCE_C  "src/*.c" )
 
 file(GLOB_RECURSE UNITARY_TEST  "src/*_test.cpp" )
 
-
-
-#remving double int main definition and all unit test files
-
 file(GLOB_RECURSE MAIN_FILE  "src/main.cpp" )
 
+#remving double int main definition
+list(REMOVE_ITEM SOURCE_CPP  ${MAIN_FILE})
+
+#remobing all test files from SOURCE_CPP
 list(REMOVE_ITEM SOURCE_CPP ${UNITARY_TEST})
 
-list(REMOVE_ITEM SOURCE_CPP  ${MAIN_FILE})
 
 add_executable(swaptions-pthreads
                         ${MAIN_FILE}
@@ -82,13 +81,13 @@ target_compile_definitions(swaptions-openmp PUBLIC ENABLE_THREADS=1 OPENMP_VERSI
 target_compile_definitions(swaptions-openmp-test PUBLIC ENABLE_THREADS=1 OPENMP_VERSION=1)
 
 
-# para degugs de variáveis 
-# macro(print_all_variables)
-#    message(STATUS "print_all_variables------------------------------------------{")
-#    foreach (file ${SOURCE_CPP})
-#        message(STATUS "soruce: ${file}\n")
-#    endforeach()
-#    message(STATUS "print_all_variables------------------------------------------}")
-# endmacro()
+#para degugs de variáveis 
+macro(print_all_variables)
+   message(STATUS "print_all_variables------------------------------------------{")
+   foreach (file ${UNITARY_TEST})
+       message(STATUS "soruce: ${file}\n")
+   endforeach()
+   message(STATUS "print_all_variables------------------------------------------}")
+endmacro()
 
-# print_all_variables()
+print_all_variables()

@@ -1,5 +1,3 @@
-#ifdef TESTS
-
 #include "tests/tests.hpp"
 
 int main()
@@ -8,5 +6,3 @@ int main()
     tests.runAll();
     return 0;
 }
-
-#endif // TESTS
