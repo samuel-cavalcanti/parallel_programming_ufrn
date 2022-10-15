@@ -7,6 +7,7 @@
 
 #include "runner.h"
 #include <atomic>
+#include "../pascal-releases/include/pascalops.h"
 
 typedef struct PthreadWorker
 {
@@ -35,7 +36,8 @@ void runWorker(std::function<void(BlockRange &, parm *)> runSimulation, parm *in
     std::atomic<int> counter(0);
     pthread_attr_t pthread_custom_attr;
     pthread_attr_init(&pthread_custom_attr);
-
+    
+    pascal_start(1);
     for (auto i = 1; i < nThreads; i++)
     {
         BlockRange r = find_blocked_range(i, input_size, nThreads);
@@ -53,6 +55,7 @@ void runWorker(std::function<void(BlockRange &, parm *)> runSimulation, parm *in
     {
         /* wait */
     }
+    pascal_stop(1);
 
     delete[] threads;
 }

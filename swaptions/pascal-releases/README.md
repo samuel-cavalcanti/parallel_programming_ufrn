@@ -1,18 +1,26 @@
 # Pascal Analyzer
+
 [![pipeline status](https://gitlab.com/lappsufrn/pascal_analyzer/badges/development/pipeline.svg)](https://gitlab.com/lappsufrn/pascal_analyzer/commits/development) [![coverage report](https://gitlab.com/lappsufrn/pascal_analyzer/badges/development/coverage.svg)](https://gitlab.com/lappsufrn/pascal_analyzer/commits/development)
 
 Python library to control an application execution triggers and processing the
 output measures times data to calculate speedups.
 
-
 ## Table of contents
 
-- [What is Pascal Analyzer](#description)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Options available](#options-available)
-- [Build Binary](#build-binary-package)
-
+- [Pascal Analyzer](#pascal-analyzer)
+  - [Table of contents](#table-of-contents)
+  - [Description](#description)
+    - [Features](#features)
+  - [Installation](#installation)
+    - [Prerequisites](#prerequisites)
+  - [Usage](#usage)
+    - [From command line](#from-command-line)
+    - [Data analysis library](#data-analysis-library)
+    - [Instrumenting source code](#instrumenting-source-code)
+  - [Options available](#options-available)
+  - [Build binary package](#build-binary-package)
+  - [Site](#site)
+    - [License](#license)
 
 ## Description
 
@@ -24,14 +32,16 @@ output measures times data to calculate speedups.
   and scalability capacity accurately.
 
 ### Features
-  - Runs applications with multiple frequencies, number of cores, input sizes
+
+- Runs applications with multiple frequencies, number of cores, input sizes
   and, optionally, repet the execution to better find outs.
-  - Manipulate of resulting data from logs process or online execution, obtained
+- Manipulate of resulting data from logs process or online execution, obtained
   by module run script itself.
-  - Calculate the speedups and efficency of applications, if it's possible,
+- Calculate the speedups and efficency of applications, if it's possible,
    using the measured times of execution.
 
 ## Installation
+
 ```bash
 git clone https://gitlab.com/lappsufrn/pascalsuite-analyzer.git
 cd pascalsuite-analyzer/
@@ -39,24 +49,26 @@ cd pascalsuite-analyzer/
 ```
 
 ### Prerequisites
-  - libpfm4
-  - g++
-  - swig
-  - make
-  - Python3 or newer
-    - cpufreq
-    - netipmi
-    - psutil
-    - numpy
-    - pandas
-    - scipy
-    - sklearn
-    - ghalton
-    - performance-features
 
-## Usage:
+- libpfm4
+- g++
+- swig
+- make
+- Python3 or newer
+  - cpufreq
+  - netipmi
+  - psutil
+  - numpy
+  - pandas
+  - scipy
+  - sklearn
+  - ghalton
+  - performance-features
+
+## Usage
 
 ### From command line
+
   ```bash
   pascalanalyzer ./myapp --inst aut --idtm 5 --cores 1,4  --frqs 3000000,2800000 --verb 3
   pascalanalyzer ./myapp -c 1,32 -v 2 -o myoutput.json
@@ -68,6 +80,7 @@ cd pascalsuite-analyzer/
   "json" file, to load a previously saved json data file, to calculate the
   speedup or efficiency of application and to plot 2D or 3D graph of time,
   speedup or efficiency versus the number of cores and frequency or input size.
+
   ```python
   from pascalanalyzer import PascalData
   d = PascalData("path_to_datafile")
@@ -76,6 +89,7 @@ cd pascalsuite-analyzer/
   d.speedups()    # Show a Dataframe with speedups
   d.energy()      # Show a Dataframe with energy
   ```
+
 ### Instrumenting source code
 
 Manual instrumentation is avialable using the functions pascal_start(id) and pascal_stop(id) defined at `include/pascalops.h`.
@@ -88,20 +102,25 @@ It marks the end of the parallel area to be measured.
 Example:
 
 ```C++
-#include "pascalops.h"
+#include <pascalops.h>
 ...
 int main()
 {
-	pascal_start(1);
-	#pragma omp parallel
-	{
-		...
-	}
-	pascal_stop(1);
-	...
+ pascal_start(1);
+ #pragma omp parallel
+ {
+  ...
+ }
+ pascal_stop(1);
+ ...
 }
 ```
 
+To compile:
+
+```bash
+g++ main.cpp -fopenmp -lmanualinst
+```
 
 A option to automatically instrument openmp code is also available using the command line:
 `./pascalanalyzer --imnt teste/ .cpp,.c`, this will mark all `pragma omp parallel` regions on the cpp and c files on the folder teste.
@@ -167,8 +186,8 @@ A option to automatically instrument openmp code is also available using the com
       --imnt PATH EXTENSIONS
                             Instrument code
 
-
 ## Build binary package
+
 ```bash
 git clone git@gitlab.com:lappsufrn/pascalsuite-analyzer.git
 cd pascalsuite-analyzer/

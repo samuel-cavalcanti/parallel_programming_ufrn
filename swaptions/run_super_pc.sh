@@ -38,5 +38,6 @@ native="-ns 128 -sm 1000000 -nt ${NTHREADS}"
 # tenho 8 threads, portanto
 MY_CORES=32;# colocar 32 caso usando o super computador
 
-pascalanalyzer -c 1:$MY_CORES --ipts "$simsmall,$simmedium,$simlarge,$native" "./build/swaptions-pthreads" -o "swaptions-pthreads-custom.json"
-pascalanalyzer -c 1:$MY_CORES --ipts "$simsmall,$simmedium,$simlarge,$native" "./build/swaptions-openmp" -o "swaptions-openmp-custom.json"
+# -t man é para informar que estou utilizando pascalops.h para isolar a região paralelizada
+pascalanalyzer -t man -c 1:$MY_CORES --ipts "$simsmall,$simmedium,$simlarge,$native" "./build/swaptions-pthreads" -o "swaptions-pthreads-custom.json"
+pascalanalyzer -t man -c 1:$MY_CORES --ipts "$simsmall,$simmedium,$simlarge,$native" "./build/swaptions-openmp" -o "swaptions-openmp-custom.json"
